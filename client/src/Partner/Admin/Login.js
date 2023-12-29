@@ -9,8 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { requestAdminLogin, userLogout } from "../../Redux/actions";
 import Swal from "sweetalert2";
-
-
+import "./Admin.css"
 
 const PartnerAdminLogin = (props) => {
   const [email, setEmail] = useState("");

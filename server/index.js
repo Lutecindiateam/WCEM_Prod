@@ -1,12 +1,13 @@
 const express = require("express");
 const env = require("dotenv");
+
 const app = express();
 const mongoose = require("mongoose");
 app.use(express.json());
 
 // for developement
-var cors = require('cors')
-app.use(cors())
+var cors = require("cors");
+app.use(cors());
 
 //for production
 // const helmet = require("helmet");

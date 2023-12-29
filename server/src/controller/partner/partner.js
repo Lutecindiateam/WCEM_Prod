@@ -69,29 +69,9 @@ exports.admin_action = async (req, res) => {
   }
 };
 
-// exports.admin_action = async (req, res) => {
-//   console.log(req);
-//   try {
-//     const Partner = req.body.id
-//     // console.log(group);
-//     console.log(Partner);
-//     const pendinguser = await Partner.find({ active: req.body.active })
-//     console.log(pendinguser);
-//     return res.status(201).json({
-//       message: "request find successfully",
-//       data: pendinguser,
-//       // count: pendinguser.length
-//     })
-
-//   } catch (error) {
-//     return res.status(400).json({
-//       message: error
-//     });
-//   }
-// }
 
 exports.create_partner_account = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const existingEmailPartner = await Partner.findOne({
       email: req.body.email,
@@ -149,7 +129,7 @@ exports.create_partner_account = async (req, res) => {
 };
 
 exports.authenticate_partner = async (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   try {
     const { email, password } = req.body;
     // Check if user exists

@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { requestLogin, userLogout } from "../Redux/actions";
 import Swal from "sweetalert2";
-
+import "./signup.css"
 
 const PartnerLogin = (props) => {
   // export default function PartnerLogin(props) {
@@ -54,7 +54,7 @@ const PartnerLogin = (props) => {
   }, [props.candidate.loginData]);
 
   return (
-    <div className="background-container">
+    <div className="background">
       <Container
         component="main"
         maxWidth="xs"

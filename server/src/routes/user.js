@@ -40,12 +40,25 @@ const {
   getPartnerAdminProfile,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
+const { uploadDocument } = require("../controller/partner/document");
 
 const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(path.dirname(__dirname), "uploads"));
+    const branchName = req.body.branch;
+    // if (file.fieldname === "files") {
+    cb(
+      null,
+      path.join(
+        path.dirname(__dirname),
+        `WCEM-2024-2025/${branchName}`
+        // "wcem_document/department/year/document"
+      )
+    );
+    //   } else {
+    //     cb(null, path.join(path.dirname(__dirname), "uploads"));
+    //   }
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -54,6 +67,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
 //Temporary Update
 router.post("/create_user_account", create_user_account);
 router.post("/authenticate_user", authenticate_user);
@@ -78,7 +92,12 @@ router.patch("/forget_partner", forget_partner);
 //API for partner
 router.post("/partner/admin/login", partnerAdminLogin);
 router.get("/adminaction", admin_action);
-router.post("/shopData", requireSignin, upload.single("file"), uploadShopData);
+router.post(
+  "/shopData",
+  requireSignin,
+  upload.array("allDocument"),
+  uploadShopData
+);
 router.post(
   "/upload-csv/:id",
   requireSignin,
@@ -90,5 +109,7 @@ router.get("/admin/allShops", getShopsData);
 router.get("/specific/shopData/:id", getSpecShopData);
 router.get("/partner/admin/profile/:id", getPartnerAdminProfile);
 router.get("/profile/:id", getPartnerProfile);
+
+router.post("/upload", upload.single("files"), uploadDocument);
 
 module.exports = router;

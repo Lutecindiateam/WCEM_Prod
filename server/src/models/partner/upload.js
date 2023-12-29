@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const applySchema = new mongoose.Schema(
   {
-    businessName: {
+    candidateName: {
       type: String,
       required: true,
       trim: true,
     },
 
-    address: {
+    mobile: {
       type: String,
 
       required: true,
@@ -20,52 +20,129 @@ const applySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    pincode: {
+    parent_mobile: {
       type: Number,
 
       required: true,
       trim: true,
     },
-    city: {
+    gender: {
       type: String,
 
       required: true,
       trim: true,
     },
-    state: {
+    course: {
       type: String,
 
       required: true,
       trim: true,
+    },
+    branch: {
+      type: String,
+
+      required: true,
+      trim: true,
+    },
+    date_docSubmision: {
+      type: Date,
+
+      required: true,
+      trim: true,
+    },
+    lastExam_passingYear: {
+      type: Date,
+
+      required: true,
+      trim: true,
+    },
+    team: {
+      type: String,
+
+      required: true,
+      trim: true,
+    },
+    source: {
+      type: String,
+      required: true,
+    },
+    entrance_exam: {
+      type: String,
+      required: true,
+    },
+    dtenumber: {
+      type: String,
+      required: true,
+    },
+    capround: {
+      type: String,
+      required: true,
+    },
+    university: {
+      type: String,
+      // required:true
+    },
+    erpid: {
+      type: String,
+      required: true,
+    },
+    otherUniversity: {
+      type: String,
+      // required: true,
+    },
+    admission_date: {
+      type: Date,
+      required: true,
+    },
+    tution_fees: {
+      type: Number,
+      required: true,
+    },
+    deve_fees: {
+      type: Number,
+      required: true,
     },
     category: {
       type: String,
-
       required: true,
-      trim: true,
     },
-    subcategory: {
+    doc_cap_lett: {
       type: String,
-
       required: true,
-      trim: true,
     },
-    leadStatus: {
-      type: String,
-
+    stu_rec_fees: {
+      type: Number,
       required: true,
-      trim: true,
     },
-    status: {
-      type: String,
-
+    balance_fees: {
+      type: Number,
       required: true,
-      trim: true,
+    },
+    paid_fees: {
+      type: Number,
+      required: true,
+    },
+    total_fees: {
+      type: Number,
+      required: true,
+    },
+    govt_fees: {
+      type: Number,
+      required: true,
+    },
+    discount: {
+      type: Number,
+      required: true,
+    },
+    student_fees: {
+      type: Number,
+      required: true,
     },
     p_id:{
       type:String,
       required:true
-    }
+    },
+    documents: [{ img: { type: String } }],
   },
 
   { timestamps: true }

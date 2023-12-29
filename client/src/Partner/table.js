@@ -22,7 +22,7 @@ const TableData = (props) => {
   // useEffect(() => {
   //   let loginData = props.candidate.loginData;
   //   if (loginData !== undefined) {
-  //     if (loginData?.data?.status == "success") { 
+  //     if (loginData?.data?.status == "success") {
   //       setUser(loginData.data.data);
   //       props.requestGetCandidate({
   //         id: loginData.data.data.id,
@@ -56,6 +56,7 @@ const TableData = (props) => {
     }
   }, [props.candidate.getCandidateData, props.data.loginData]);
 
+  //Admin api
   useEffect(() => {
     let monthWiseJobData = props.data.monthWiseJobData;
     if (monthWiseJobData !== undefined) {
@@ -65,6 +66,7 @@ const TableData = (props) => {
     }
   }, [props.data.monthWiseJobData, props.data.loginData]);
 
+  console.log(list);
   useEffect(() => {
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
@@ -76,30 +78,31 @@ const TableData = (props) => {
 
   const columns = [
     { field: "id", headerName: "Sr.No.", width: 100 },
-    { field: "businessName", headerName: "Business Name", flex: 1 },
-    { field: "mobile", headerName: "Mobile Number", flex: 1 },
-    { field: "address", headerName: "Address", flex: 1 },
-    { field: "pincode", headerName: "Pincode", flex: 1 },
-    { field: "city", headerName: "City", flex: 1 },
-    { field: "state", headerName: "State", flex: 1 },
-    { field: "category", headerName: "Category", flex: 1 },
-    { field: "subcategory", headerName: "Subcategory", flex: 1 },
-    { field: "leadStatus", headerName: "Lead Status", flex: 1 },
-    { field: "status", headerName: "Status", flex: 1 },
+    { field: "candidateName", headerName: "Candidate Name", flex: 1 },
+    { field: "source", headerName: "Source", flex: 1 },
+    // { field: "documents", headerName: "Documets", flex: 1 },
+    { field: "branch", headerName: "Branch", flex: 1 },
+    // { field: "city", headerName: "City", flex: 1 },
+    // { field: "state", headerName: "State", flex: 1 },
+    // { field: "category", headerName: "Category", flex: 1 },
+    // { field: "subcategory", headerName: "Subcategory", flex: 1 },
+    // { field: "leadStatus", headerName: "Lead Status", flex: 1 },
+    // { field: "status", headerName: "Status", flex: 1 },
   ];
 
   const rows = list.map((item, index) => ({
     id: index + 1,
-    businessName: item.businessName,
-    mobile: item.mobile,
-    address: item.address,
-    pincode: item.pincode,
-    city: item.city,
-    state: item.state,
-    category: item.category,
-    subcategory: item.subcategory,
-    leadStatus: item.leadStatus,
-    status: item.status,
+    candidateName: item.candidateName,
+    source: item.source,
+    branch: item.branch,
+
+    // address: item.address,
+    // city: item.city,
+    // state: item.state,
+    // category: item.category,
+    // subcategory: item.subcategory,
+    // leadStatus: item.leadStatus,
+    // status: item.status,
   }));
 
   return (

@@ -6,7 +6,7 @@ exports.uploadProductsFromCSV = (req, res) => {
   // console.log(req.params);
   try {
     const csvData = [];
-    // console.log(req.file);
+    console.log(req.file);
     fs.createReadStream(req.file.path)
       .pipe(csv())
       .on("data", (row) => {
@@ -74,8 +74,80 @@ exports.uploadProductsFromCSV = (req, res) => {
 
 exports.uploadShopData = async (req, res) => {
   try {
-    // console.log(req.body);
-    const response = await upload.create(req.body);
+    // console.log(req.params);
+    // const { p_id } = req.params.id;
+
+    const {
+      candidateName,
+      mobile,
+      parent_mobile,
+      gender,
+      course,
+      branch,
+      date_docSubmision,
+      lastExam_passingYear,
+      team,
+      source,
+      entrance_exam,
+      dtenumber,
+      capround,
+      erpid,
+      university,
+      admission_date,
+      tution_fees,
+      deve_fees,
+      total_fees,
+      govt_fees,
+      discount,
+      student_fees,
+      paid_fees,
+      balance_fees,
+      doc_cap_lett,
+      category,
+      stu_rec_fees,
+      p_id
+    } = req.body;
+    let documents = [];
+
+
+    if (req.files && req.files.length > 0) {
+      documents = req.files.map((file) => {
+        return { img: file.filename };
+      });
+    }
+    const student = new upload({
+      candidateName,
+      mobile,
+      parent_mobile,
+      gender,
+      course,
+      branch,
+      date_docSubmision,
+      lastExam_passingYear,
+      team,
+      source,
+      entrance_exam,
+      dtenumber,
+      capround,
+      erpid,
+      university,
+      admission_date,
+      tution_fees,
+      deve_fees,
+      total_fees,
+      govt_fees,
+      discount,
+      student_fees,
+      paid_fees,
+      balance_fees,
+      doc_cap_lett,
+      category,
+      stu_rec_fees,
+      documents,
+      p_id,
+    });
+
+    const response = await student.save();
     if (response) {
       return res.status(200).json({
         data: response,
