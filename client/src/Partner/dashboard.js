@@ -11,6 +11,7 @@ import {
   requestJobDetails,
   requestAdminMonthJob,
   requestGetCandidate,
+  requestGetApplyJob,
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Pie from "./pie";
@@ -54,15 +55,20 @@ const Dashboard = ({ information, ...props }) => {
   //   }
   // }, [user]);
 
-
-
-
   //for proxy & employee  registration
   useEffect(() => {
+    console.log("hello");
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
         setUser(loginData.data.data);
+        // if (loginData.data.data.role === "editor") {
+        //   props.requestGetApplyJob({
+        //     id: loginData.data.data.id,
+        //     role: loginData.data.data.role,
+        //     token: loginData.data.data.token,
+        //   });
+        // }
         props.requestGetCandidate({
           id: loginData.data.data.id,
           role: loginData.data.data.role,
@@ -70,7 +76,7 @@ const Dashboard = ({ information, ...props }) => {
         });
       }
     }
-  }, [props.candidate.loginData]);
+  }, [props.candidate.loginData, props.candidate.applyJobData]);
 
   useEffect(() => {
     let getCandidateData = props.candidate.getCandidateData;
@@ -82,15 +88,32 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.candidate?.getCandidateData]);
 
-
+  // //for editor all admission
+  // useEffect(() => {
+  //   let getApplyJobData = props.candidate.getApplyJobData;
+  //   // console.log(getCandidateData);
+  //   if (getApplyJobData !== undefined) {
+  //     if (getApplyJobData?.data?.status === "success") {
+  //       setList(getApplyJobData.data.data.response);
+  //     }
+  //   }
+  // }, [props?.candidate?.getApplyJobData]);
 
 
   //for admin total registration data
   useEffect(() => {
     let loginData = props.data.loginData;
+    console.log(loginData);
+    console.log(
+      loginData?.data?.data.role === "admin" ||
+        loginData?.data?.data.role === "editor"
+    );
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-        if (loginData?.data?.data.role === "admin") {
+        if (
+          loginData?.data?.data.role === "admin" ||
+          loginData?.data?.data.role === "editor"
+        ) {
           setUser(loginData.data.data);
           props.requestAdminMonthJob({
             token: loginData.data.data.token,
@@ -100,6 +123,7 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.loginData]);
 
+  console.log(user);
   useEffect(() => {
     let monthWiseJobData = props.data.monthWiseJobData;
     if (monthWiseJobData !== undefined) {
@@ -109,7 +133,7 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.monthWiseJobData]);
 
-
+  console.log(list);
   return (
     <Layout>
       <Fragment>
@@ -131,7 +155,7 @@ const Dashboard = ({ information, ...props }) => {
                     <div className="media d-flex">
                       <div className="media-body text-left">
                         <h3 className="">{list?.length ? list?.length : 0}</h3>
-                        <span className="">Total Registration</span>
+                        <span className="">Total Admissions</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -164,7 +188,7 @@ const Dashboard = ({ information, ...props }) => {
                               ).length
                             : 0}
                         </h3>
-                        <span className="">Total Active Registration</span>
+                        <span className="">Incomplete Admissions</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -241,9 +265,9 @@ const Dashboard = ({ information, ...props }) => {
               </div>
             </div>
           </div>
-<br/>
-<div>
-{/* <Row >
+          <br />
+          <div>
+            {/* <Row >
               <Col sm={10} md={10} lg={10} span={24}>
                 <Card title="Total Registration Vs Active Registration" >
                   <Pie />
@@ -251,11 +275,10 @@ const Dashboard = ({ information, ...props }) => {
                 </Card>
               </Col>
              </Row> */}
-             </div>
-             {/* <div>
+          </div>
+          {/* <div>
               <Graph/>
              </div> */}
-          
         </div>
       </Fragment>
     </Layout>
@@ -280,6 +303,7 @@ const mapDispatchToProps = (dispatch) =>
       requestJobDetails,
       requestAdminMonthJob,
       requestGetCandidate,
+      requestGetApplyJob,
     },
     dispatch
   );

@@ -47,8 +47,11 @@ function App(props) {
               Sales Portal
             </option>
             {/* <optgroup label="Activities"> */}
-            <option value="/partnerlogin">Partner</option>
+            <option value="/partnerlogin">Clerk</option>
+            <option value="/partnerlogin">Editor</option>
             <option value="/partner/admin">Admin</option>
+            <option>SuperAdmin</option>
+            <option>Agent</option>
 
             {/* </optgroup> */}
           </select>

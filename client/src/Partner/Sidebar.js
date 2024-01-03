@@ -16,10 +16,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import HomeIcon from "@mui/icons-material/Home";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
-import PreviewIcon from '@mui/icons-material/Preview';
+import PreviewIcon from "@mui/icons-material/Preview";
 import { Typography } from "antd";
 import "./sidebar.css";
-import ob from "./image/ob.jpg";
+import ob from "../image/Wainganga.jpg";
 import { bindActionCreators } from "redux";
 import { requestAddResume, requestApplyJob } from "../Redux/actions";
 import { connect } from "react-redux";
@@ -89,22 +89,28 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
         className="style"
         style={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          // justifyContent: "center",
+          // alignItems: "center",
+          paddingLeft: "15px"
         }}
       >
-        <strong style={{ color: "gold", fontWeight: "bold", fontSize: "20px" }}>
-          Bharat
+        <img src={ob} alt="ob" style={{ height: "80%", width: "70px"}} />
+         <strong style={{ color: "gold", fontWeight: "bold", fontSize: "25px", paddingLeft:"10px" , paddingTop: "10px"}}>
+          W.C.E.M.
         </strong>
-
+        {/* <strong style={{ color: "gold", fontWeight: "bold", fontSize: "20px" }}>
+          Wain
+        </strong> */}
+        {/* &nbsp;
         <img src={ob} alt="ob" style={{ height: "90%", width: "70px" }} />
-
-        <strong style={{ color: "gold	", fontWeight: "bold", fontSize: "20px" }}>
-          Online
-        </strong>
+        &nbsp; */}
+        {/* <strong style={{ color: "gold	", fontWeight: "bold", fontSize: "20px" }}>
+          Ganga
+        </strong> */}
       </div>
 
       <Divider />
+      <br/>
       <List>
         <ListItem key="dashboard" disablePadding>
           <ListItemButton to="/dashboard">
@@ -127,17 +133,17 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             <ListItemIcon>
               <PeopleAltIcon style={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="All Data" style={{ color: "white" }} />
+            <ListItemText primary="All Students" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="docView" disablePadding>
+        {/* <ListItem key="docView" disablePadding>
           <ListItemButton to="/doc">
             <ListItemIcon>
               <PreviewIcon style={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="View Documents" style={{ color: "white" }} />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         {user.role === "admin" ? (
           <>
             <ListItem key="users" disablePadding>

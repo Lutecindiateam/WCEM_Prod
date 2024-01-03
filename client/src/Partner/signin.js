@@ -44,7 +44,11 @@ const PartnerLogin = (props) => {
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
         Swal.fire("Good job!", "Login successfully.", "success");
+        // if(loginData?.data?.data?.role === "editor"){
+        //   navigate("/all-data")
+        // }else{
         navigate("/dashboard");
+        // }
       } else {
         Swal.fire("Sorry!", loginData.data.error, "error");
         seterrorpassword("Invalid Credentials");
@@ -52,6 +56,7 @@ const PartnerLogin = (props) => {
       }
     }
   }, [props.candidate.loginData]);
+
 
   return (
     <div className="background">

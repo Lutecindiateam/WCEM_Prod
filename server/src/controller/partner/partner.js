@@ -55,7 +55,6 @@ exports.admin_action = async (req, res) => {
     // Assuming req.body.active is the status you want to filter on
     const pendinguser = await Partner.find();
 
-
     return res.status(200).json({
       message: "Request find successful",
       data: pendinguser,
@@ -68,7 +67,6 @@ exports.admin_action = async (req, res) => {
     });
   }
 };
-
 
 exports.create_partner_account = async (req, res) => {
   // console.log(req.body);
@@ -129,7 +127,7 @@ exports.create_partner_account = async (req, res) => {
 };
 
 exports.authenticate_partner = async (req, res) => {
-  // console.log(req.body)
+  // console.log(req.body);
   try {
     const { email, password } = req.body;
     // Check if user exists
@@ -140,16 +138,13 @@ exports.authenticate_partner = async (req, res) => {
       if (!user) {
         return res.status(400).json({ error: "Invalid email or password" });
       } else if (user.active == "pending") {
-        return res
-          .status(400)
-          .json({
-            error:
-              "Your request is currently pending. Please contact our support team.",
-          });
+        return res.status(400).json({
+          error:
+            "Your request is currently pending. Please contact our support team.",
+        });
       }
-
       bcrypt.compare(password, user.password, function (error, isMatch) {
-        // console.log("MATCH :: ", isMatch)
+        // console.log("MATCH :: ", isMatch);
         if (isMatch) {
           const payload = {
             id: user.id,
@@ -165,12 +160,6 @@ exports.authenticate_partner = async (req, res) => {
                 message: "Sign In success",
                 status: "success",
               });
-              //   return res.status(201).json({
-              //     data :{id: savedUser.id ,token:token , first_name:first_name , last_name:last_name, block:savedUser.deleted},
-              //     status :"success",
-              //     message:"Candidate registered successfully"
-
-              // })
             }
           );
         } else {

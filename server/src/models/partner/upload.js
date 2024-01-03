@@ -138,11 +138,31 @@ const applySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    p_id:{
-      type:String,
-      required:true
+    p_id: {
+      type: String,
+      required: true,
     },
-    documents: [{ img: { type: String } }],
+    documents: {
+      adhar: { type: String, default: null },
+      photo: { type: String, default: null },
+      sign: { type: String, default: null },
+      tc: { type: String, default: null },
+      tenth: { type: String, default: null },
+
+      twelfth: { type: String, default: null },
+
+      caste: { type: String, default: null },
+      ncl: { type: String, default: null },
+      domicile: { type: String, default: null },
+
+      csv: {
+        type: String,
+        default: null,
+      },
+
+      cet: { type: String, default: null },
+      other: { type: String, default: null },
+    },
   },
 
   { timestamps: true }

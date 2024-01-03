@@ -22,12 +22,12 @@ import Logout from "./Partner/Logout";
 import Pie from "./Partner/pie";
 import { DocumentUploader } from "./Partner/documentUpload";
 import CreateRole from "./Partner/Admin/CreateRole";
-import { DocView } from "./Partner/documentView";
+import  DocView  from "./Partner/documentView";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <PartnerLogin />,
   },
   {
     path: "/main",
@@ -106,9 +106,13 @@ const router = createBrowserRouter([
     element: <DocumentUploader />,
   },
   {
-    path: "/doc",
+    path: "/doc/:branch/:id",
     element: <DocView />,
   },
+  // {
+  //   path:"/edit",
+  //   element: <
+  // },
   // {
   //   path:"/pie",
   //   element:<Pie />

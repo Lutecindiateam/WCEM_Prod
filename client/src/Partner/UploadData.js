@@ -55,7 +55,17 @@ const UploadData = (props) => {
 
   const gender = ["Male", "Female"];
   const course = ["B.tech", "B.E", "MBA", "MCA", "M.Tech", "Diploma"];
-  const branch = ["ARTIFICIAL INTELLIGENCE AND DATA SCIENCE", "COMPUTER SCIENCE & ENGINEERING", "CIVIL ENGINEERING", "ELECTRONICS AND TELECOMMUNICATION", "ELECTRICAL ENGINEERING", "MECHANICAL ENGINEERING", "DEPARTMENT OF SCIENCE AND HUMANITTIES", "MBA", "MCA"];
+  const branch = [
+    "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE",
+    "COMPUTER SCIENCE & ENGINEERING",
+    "CIVIL ENGINEERING",
+    "ELECTRONICS AND TELECOMMUNICATION",
+    "ELECTRICAL ENGINEERING",
+    "MECHANICAL ENGINEERING",
+    "DEPARTMENT OF SCIENCE AND HUMANITTIES",
+    "MBA",
+    "MCA",
+  ];
   const team = ["Adm.Team", "Staff"];
   const source = ["source1", "source2", "source3"];
   const entrance_exam = ["MCA", "MBA", "BE"];
@@ -102,7 +112,7 @@ const UploadData = (props) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [showOtherInput, setShowOtherInput] = useState(false);
-  const [document, setDocument] = useState([]);
+  // const [document, setDocument] = useState([]);
   // const handleFileChange = (e) => {
   //   const file = e.target.files[0];
   //   setCsvFile(file);
@@ -132,11 +142,10 @@ const UploadData = (props) => {
   //   }
   // };
 
-  const handleDocument = (e) => {
-    setDocument([...document, e.target.files[0]]);
-  };
+  // const handleDocument = (e) => {
+  //   setDocument([...document, e.target.files[0]]);
+  // };
   // console.log(document);
-
 
   useEffect(() => {
     let loginData = props.candidate.loginData;
@@ -147,7 +156,7 @@ const UploadData = (props) => {
     }
   }, [props.candidate.loginData]);
 
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     let loginData = props.data.loginData;
     if (loginData !== undefined) {
@@ -159,26 +168,26 @@ const UploadData = (props) => {
     }
   }, [props.data.loginData]);
 
-  useEffect(() => {
-    let addresume = props.candidate.addResumeData;
-    if (addresume !== undefined) {
-      if (addresume?.data?.status == "success") {
-        Swal.fire("Good job!", "CSV File Uploaded successfully.", "success");
-        setLoader(false);
-        document.getElementById("csvFileInput").value = "";
-        props.candidate.addResumeData = undefined;
-      } else {
-        Swal.fire(
-          "Error!",
-          "There is some error in uploading CSV file.",
-          "error"
-        );
-        setLoader(false);
-        props.candidate.addResumeData = undefined;
-        props.candidate.resumeData = undefined;
-      }
-    }
-  }, [props.candidate.addResumeData]);
+  // useEffect(() => {
+  //   let addresume = props.candidate.addResumeData;
+  //   if (addresume !== undefined) {
+  //     if (addresume?.data?.status == "success") {
+  //       Swal.fire("Good job!", "CSV File Uploaded successfully.", "success");
+  //       setLoader(false);
+  //       document.getElementById("csvFileInput").value = "";
+  //       props.candidate.addResumeData = undefined;
+  //     } else {
+  //       Swal.fire(
+  //         "Error!",
+  //         "There is some error in uploading CSV file.",
+  //         "error"
+  //       );
+  //       setLoader(false);
+  //       props.candidate.addResumeData = undefined;
+  //       props.candidate.resumeData = undefined;
+  //     }
+  //   }
+  // }, [props.candidate.addResumeData]);
 
   const handleUniversity = (value) => {
     setShowOtherInput(value === "Other");
@@ -201,10 +210,11 @@ const UploadData = (props) => {
       formData.append("dtenumber", values.dtenumber);
       formData.append("capround", values.capround);
       formData.append("erpid", values.erpid);
-      formData.append("university", values.university);
 
       if (showOtherInput) {
         formData.append("otherUniversity", values.otherUniversity);
+      } else {
+        formData.append("university", values.university);
       }
       formData.append("admission_date", values.admission_date);
       formData.append("tution_fees", values.tution_fees);
@@ -216,16 +226,9 @@ const UploadData = (props) => {
       formData.append("paid_fees", values.paid_fees);
       formData.append("balance_fees", values.balance_fees);
       formData.append("doc_cap_lett", values.doc_cap_lett);
-
       formData.append("category", values.category);
       formData.append("stu_rec_fees", values.stu_rec_fees);
-      // formData.append("leadStatus", values.leadStatus);
-      // formData.append("status", values.status);
       formData.append("p_id", user.id);
-      for (let allDocument of document) {
-        console.log(document);
-        formData.append("allDocument", allDocument);
-      }
 
       props.requestApplyJob({
         token: user.token,
@@ -243,12 +246,16 @@ const UploadData = (props) => {
 
   useEffect(() => {
     let applyJobData = props.candidate.applyJobData;
+    // console.log(applyJobData);
     if (applyJobData !== undefined) {
       if (applyJobData?.data?.status == "success") {
         Swal.fire("Good job!", "Data Uploaded successfully.", "success");
         setLoader(false);
-        setDocument([]);
         form.resetFields();
+        navigate(
+          `/doc/${applyJobData.data.data.branch}/${applyJobData.data.data._id}`
+        );
+
         props.candidate.applyJobData = undefined;
       } else {
         Swal.fire("Alert!", "Something Went Wrong.", "error");
@@ -292,7 +299,7 @@ const UploadData = (props) => {
             form={form}
             name="basic"
             labelCol={{
-              span: 7,
+              span: 4,
             }}
             labelWrap
             wrapperCol={{
@@ -874,7 +881,7 @@ const UploadData = (props) => {
             >
               <Input placeholder="Enter Document CAP Letter" />
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               style={{ marginBottom: "15px" }}
               name="adhar"
               label="Adhar Card"
@@ -949,7 +956,7 @@ const UploadData = (props) => {
               label="Other"
             >
               <Input type="file" onChange={handleDocument} />
-            </Form.Item>
+            </Form.Item> */}
 
             {/* 
            
@@ -1070,7 +1077,7 @@ const UploadData = (props) => {
                 onClick={onClickLoading}
                 style={{ backgroundColor: "#2c3e50" }}
               >
-                Add Data
+                Submit
               </Button>
             </Form.Item>
           </Form>

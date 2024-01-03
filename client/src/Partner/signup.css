@@ -2,14 +2,19 @@
 
 /* Default background image for web */
 .background {
-    background-image: url("../image/new1.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 110vh;
-    
+  *{
+    margin: 0;
+    padding: 0;
   }
   
+    background-image: url("../image/new1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background-position: center center; */
+    height: 100vh;
+
+  }
+
   /* Media query for mobile devices */
   @media (max-width: 768px) {
     .background {

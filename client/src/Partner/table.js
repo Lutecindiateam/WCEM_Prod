@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import { requestAdminMonthJob, requestGetCandidate } from "../Redux/actions";
+import { requestAdminMonthJob, requestGetCandidate,requestGetApplyJob } from "../Redux/actions";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
 import Layout from "./Layout";
@@ -19,19 +19,26 @@ const TableData = (props) => {
   const [list, setList] = useState([]);
   const [status, setStatus] = useState("true");
 
-  // useEffect(() => {
-  //   let loginData = props.candidate.loginData;
-  //   if (loginData !== undefined) {
-  //     if (loginData?.data?.status == "success") {
-  //       setUser(loginData.data.data);
-  //       props.requestGetCandidate({
-  //         id: loginData.data.data.id,
-  //         role: loginData.data.data.role,
-  //         token: loginData.data.data.token
-  //       });
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    let loginData = props.candidate.loginData;
+    if (loginData !== undefined) {
+      if (loginData?.data?.status == "success") {
+        // setUser(loginData.data.data);
+        // if (loginData.data.data.role === "editor") {
+        //   props.requestGetApplyJob({
+        //     id: loginData.data.data.id,
+        //     role: loginData.data.data.role,
+        //     token: loginData.data.data.token,
+        //   });
+        // }
+        props.requestGetCandidate({
+          id: loginData.data.data.id,
+          role: loginData.data.data.role,
+          token: loginData.data.data.token,
+        });
+      }
+    }
+  }, []);
 
   // useEffect(() => {
   //   let loginData = props.data.loginData;
@@ -45,6 +52,7 @@ const TableData = (props) => {
   //     }
   //   }
   // }, [props.data.loginData]);
+
 
   useEffect(() => {
     let getCandidateData = props.candidate.getCandidateData;
@@ -66,7 +74,18 @@ const TableData = (props) => {
     }
   }, [props.data.monthWiseJobData, props.data.loginData]);
 
-  console.log(list);
+// //for editor all admission
+//   useEffect(() => {
+//     let getApplyJobData = props.candidate.getApplyJobData;
+//     // console.log(getCandidateData);
+//     if (getApplyJobData !== undefined) {
+//       if (getApplyJobData?.data?.status === "success") {
+//         setList(getApplyJobData.data.data.response);
+//       }
+//     }
+//   }, [props?.candidate?.getApplyJobData]);
+
+  // console.log(list);
   useEffect(() => {
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
@@ -75,13 +94,29 @@ const TableData = (props) => {
       }
     }
   }, [props.candidate.loginData]);
-
+  // console.log(user);
   const columns = [
     { field: "id", headerName: "Sr.No.", width: 100 },
     { field: "candidateName", headerName: "Candidate Name", flex: 1 },
     { field: "source", headerName: "Source", flex: 1 },
     // { field: "documents", headerName: "Documets", flex: 1 },
     { field: "branch", headerName: "Branch", flex: 1 },
+    {
+      field: "documentView",
+      headerName: "Document View",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
+          style={{ textDecoration: "none" }}
+        >
+          {/* You can use any icon component for document view */}
+          <span role="img" aria-label="View Documents">
+            📄 View
+          </span>
+        </Link>
+      ),
+    },
     // { field: "city", headerName: "City", flex: 1 },
     // { field: "state", headerName: "State", flex: 1 },
     // { field: "category", headerName: "Category", flex: 1 },
@@ -95,7 +130,10 @@ const TableData = (props) => {
     candidateName: item.candidateName,
     source: item.source,
     branch: item.branch,
-
+    document: {
+      id: item._id, // Replace with the actual field in your response
+      branch: item.branch, // Replace with the actual field in your response
+    },
     // address: item.address,
     // city: item.city,
     // state: item.state,
@@ -130,6 +168,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ requestAdminMonthJob, requestGetCandidate }, dispatch);
+  bindActionCreators({ requestAdminMonthJob, requestGetCandidate,requestGetApplyJob }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableData);

@@ -125,7 +125,7 @@ const Layout = ({ children, ...props }) => {
             <MenuIcon />
           </IconButton>
           {/* <Typography variant="h6" noWrap component="div">
-            Bharat Online
+          Wainganga College of Engineering & Management, Nagpur
           </Typography> */}
           <AccountCircleIcon style={iconStyles} onClick={handleToggleClick} />
           {showUserProfile && (

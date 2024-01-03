@@ -22,6 +22,7 @@ const {
 const {
   uploadProductsFromCSV,
   uploadShopData,
+  getEditorAdmission,
 } = require("../controller/partner/partnerupload");
 const multer = require("multer");
 const path = require("path");
@@ -40,7 +41,7 @@ const {
   getPartnerAdminProfile,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
-const { uploadDocument } = require("../controller/partner/document");
+const { uploadDocument, getDocument } = require("../controller/partner/document");
 
 const router = express.Router();
 
@@ -48,6 +49,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const branchName = req.body.branch;
     // if (file.fieldname === "files") {
+    // console.log(req.body);
     cb(
       null,
       path.join(
@@ -69,6 +71,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //Temporary Update
+
 router.post("/create_user_account", create_user_account);
 router.post("/authenticate_user", authenticate_user);
 router.post("/create_admin_account", create_admin_account);
@@ -110,6 +113,9 @@ router.get("/specific/shopData/:id", getSpecShopData);
 router.get("/partner/admin/profile/:id", getPartnerAdminProfile);
 router.get("/profile/:id", getPartnerProfile);
 
-router.post("/upload", upload.single("files"), uploadDocument);
+// router.post("/upload", upload.single("files"), uploadDocument);
+router.patch("/employer/:id", upload.single("file"), uploadDocument);
+router.get("/employer/:id", getDocument)
+router.get("/editor/getadmission/:id",getEditorAdmission)
 
 module.exports = router;

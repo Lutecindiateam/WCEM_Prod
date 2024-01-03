@@ -108,12 +108,12 @@ exports.uploadShopData = async (req, res) => {
       p_id
     } = req.body;
     let documents = [];
-
+console.log(req.body);
 
     if (req.files && req.files.length > 0) {
       documents = req.files.map((file) => {
         return { img: file.filename };
-      });
+      }); 
     }
     const student = new upload({
       candidateName,
@@ -161,3 +161,19 @@ exports.uploadShopData = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.getEditorAdmission = async(req, res) => {
+  try{
+    const response = await upload.find();
+    if (response.length > 0) {
+      return res.status(200).json({
+        data: { response },
+        status: "success",
+      });
+    }
+  }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong"
+    })
+  }
+}

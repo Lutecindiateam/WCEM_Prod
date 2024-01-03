@@ -19,8 +19,8 @@ export const register = (obj) => {
 };
 
 export const login = (obj) => {
-  console.log(axios);
-  // console.log(obj.data);
+  // console.log(axios);
+  console.log(obj.data);
   return (
     axios
       // .post("/candidate/login", obj.data)
@@ -81,7 +81,7 @@ export const recentlyJob = (obj) => {
 export const getCandidate = (obj) => {
   // console.log(obj);
   return axios
-    .get("/specific/shopData/" + obj.id, {
+    .get("/specific/shopData/" + obj.id, obj,{
       headers: { Authorization: `Bearer ${obj.token}` },
     })
     .then((response) => {
@@ -108,6 +108,49 @@ export const getJobsSuggestions = (obj) => {
 export const jobDetails = (obj) => {
   return axios
     .get("/profile/" + obj.id)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
+export const empprofile = (obj) => {
+  // console.log(obj);
+  return axios
+    .patch("/employer/" + obj.id, obj.data.formData, {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
+export const getemp = (obj) => {
+  return axios
+    .get("/employer/" + obj.id, {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
+export const getAppliedJobs = (obj) => {
+  return axios
+    .get("/editor/getadmission/" + obj.id , {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
     .then((response) => {
       return response;
     })
@@ -236,33 +279,9 @@ export const emplogo = (obj) => {
     });
 };
 
-export const getemp = (obj) => {
-  return axios
-    .get("/employer/" + obj.id, {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
 
-export const empprofile = (obj) => {
-  return axios
-    .patch("/employer/" + obj.id, obj.data, {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
+
+
 
 export const getJobs = (obj) => {
   // console.log(obj);
@@ -469,19 +488,6 @@ export const candidateresume = (obj) => {
     });
 };
 
-export const getAppliedJobs = (obj) => {
-  return axios
-    .get("/candidate/" + obj.id + "/jobs", {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
 
 export const jobAlert = (obj) => {
   return axios

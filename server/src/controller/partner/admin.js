@@ -80,10 +80,9 @@ exports.getShopsData = async (req, res) => {
 };
 
 exports.getSpecShopData = async (req, res) => {
-  // console.log(req.params);
   try {
     const response = await upload.find({ p_id: req.params.id });
-    if (response.length > 0) {
+    if (response.length > 0) {    
       return res.status(200).json({
         data: { response },
         status: "success",
