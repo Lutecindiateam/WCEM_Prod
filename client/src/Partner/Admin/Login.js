@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { requestAdminLogin, userLogout } from "../../Redux/actions";
 import Swal from "sweetalert2";
-import "./Admin.css"
+import "./Admin.css";
 
 const PartnerAdminLogin = (props) => {
   const [email, setEmail] = useState("");
@@ -17,7 +17,6 @@ const PartnerAdminLogin = (props) => {
   const [errorpassword, seterrorpassword] = useState("");
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     setEmail("");
@@ -28,23 +27,21 @@ const PartnerAdminLogin = (props) => {
     e.preventDefault();
 
     props.requestAdminLogin({
-        data: {
-          email:email,
-          password:password,
-        },
-      });
+      data: {
+        email: email,
+        password: password,
+      },
+    });
   }
-
 
   useEffect(() => {
     let loginData = props.data.loginData;
-    // console.log(loginData);
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-          Swal.fire("Good job!", "Login successfully.", "success");
-           navigate("/dashboard");
+        Swal.fire("Good job!", "Login successfully.", "success");
+        navigate("/dashboard");
       } else {
-        Swal.fire("Sorry!", loginData.data.error , "error");
+        Swal.fire("Sorry!", loginData.data.error, "error");
         seterrorpassword("Invalid Credentials");
         setError(true);
       }
@@ -69,7 +66,7 @@ const PartnerAdminLogin = (props) => {
             variant="h5"
             style={{ textAlign: "center", fontSize: "30px", color: "white" }}
           >
-            Login
+            Admin Login
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -125,7 +122,7 @@ const PartnerAdminLogin = (props) => {
               }}
             />
 
-            <Typography
+            {/* <Typography
               variant="body2"
               align="right"
               style={{ color: "white", fontSize: "16px" }}
@@ -137,7 +134,7 @@ const PartnerAdminLogin = (props) => {
               >
                 Forgot Password
               </a>
-            </Typography>
+            </Typography> */}
             <div style={{ paddingTop: "5px", paddingBottom: "5px" }}>
               <Button
                 type="submit"
@@ -149,7 +146,7 @@ const PartnerAdminLogin = (props) => {
                 Login
               </Button>
             </div>
-            <Typography
+            {/* <Typography
               variant="body2"
               align="right"
               style={{ color: "white", fontSize: "16px" }}
@@ -158,7 +155,7 @@ const PartnerAdminLogin = (props) => {
               <a href="/partnersignup" style={{ color: "white" }}>
                 Sign up
               </a>
-            </Typography>
+            </Typography> */}
           </form>
         </div>
       </Container>
@@ -167,11 +164,10 @@ const PartnerAdminLogin = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { data: state.data };
-  };
-  
-  const mapDispatchToProps = (dispatch) =>
-    bindActionCreators({ requestAdminLogin }, dispatch);
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(PartnerAdminLogin);
-  
+  return { data: state.data };
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ requestAdminLogin }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PartnerAdminLogin);

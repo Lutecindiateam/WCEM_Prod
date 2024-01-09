@@ -100,7 +100,7 @@ const PartnerSignUp = (props) => {
         <div>
           {/* <Typography variant="h5">Registration</Typography> */}
           <form onSubmit={handleSubmit}>
-            <TextField
+             <TextField
               fullWidth
               label=" Full Name"
               type="text"
@@ -121,7 +121,7 @@ const PartnerSignUp = (props) => {
                 },
               }}
             />
-
+{/*
             <TextField
               fullWidth
               label=" Phone Number"
@@ -194,7 +194,7 @@ const PartnerSignUp = (props) => {
                   color: "white", // Label color
                 },
               }}
-            />
+            /> */}
 
             <TextField
               fullWidth
@@ -264,8 +264,8 @@ const PartnerSignUp = (props) => {
                     color: "white",
                   }}
                 >
-                  <MenuItem value="employee">Yes</MenuItem>
-                  <MenuItem value="proxy">No</MenuItem>
+                  <MenuItem value="agent">Yes</MenuItem>
+                  {/* <MenuItem value="proxy">No</MenuItem> */}
                 </Select>
               </FormControl>
             </Box>

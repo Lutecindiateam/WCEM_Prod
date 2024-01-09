@@ -2,29 +2,29 @@ const mongoose = require("mongoose");
 
 const applySchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
+    // name: {
+    //   type: String,
 
-      required: true,
-      trim: true,
-    },
+    //   required: true,
+    //   trim: true,
+    // },
 
-    phone: {
-      type: Number,
-      trim: true,
-    },
-    address: {
-      type: String,
+    // phone: {
+    //   type: Number,
+    //   trim: true,
+    // },
+    // address: {
+    //   type: String,
 
-      required: true,
-      trim: true,
-    },
-    pincode: {
-      type: Number,
+    //   required: true,
+    //   trim: true,
+    // },
+    // pincode: {
+    //   type: Number,
 
-      required: true,
-      trim: true,
-    },
+    //   required: true,
+    //   trim: true,
+    // },
     email: {
       type: String,
 
@@ -40,7 +40,7 @@ const applySchema = new mongoose.Schema(
 
     active: {
       type: String,
-      default: "pending",
+      default: "success",
       // required: true,
       trim: true,
     },

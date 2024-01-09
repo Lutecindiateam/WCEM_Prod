@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { requestLogin, userLogout } from "../Redux/actions";
 import Swal from "sweetalert2";
-import "./signup.css"
+import "./signup.css";
 
 const PartnerLogin = (props) => {
   // export default function PartnerLogin(props) {
@@ -56,7 +56,6 @@ const PartnerLogin = (props) => {
       }
     }
   }, [props.candidate.loginData]);
-
 
   return (
     <div className="background">
@@ -132,7 +131,7 @@ const PartnerLogin = (props) => {
               }}
             />
 
-            <Typography
+            {/* <Typography
               variant="body2"
               align="right"
               style={{ color: "white", fontSize: "16px" }}
@@ -144,7 +143,7 @@ const PartnerLogin = (props) => {
               >
                 Forgot Password
               </a>
-            </Typography>
+            </Typography> */}
             <div style={{ paddingTop: "5px", paddingBottom: "5px" }}>
               <Button
                 type="submit"
@@ -161,11 +160,21 @@ const PartnerLogin = (props) => {
               align="right"
               style={{ color: "white", fontSize: "16px" }}
             >
+              For Admin{" "}
+              <a href="/partner/admin" style={{ color: "white" }}>
+                Sign in
+              </a>
+            </Typography>
+            {/* <Typography
+              variant="body2"
+              align="right"
+              style={{ color: "white", fontSize: "16px" }}
+            >
               Don't have an account?{" "}
               <a href="/partnersignup" style={{ color: "white" }}>
                 Sign up
               </a>
-            </Typography>
+            </Typography> */}
           </form>
         </div>
       </Container>

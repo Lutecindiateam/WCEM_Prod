@@ -23,6 +23,7 @@ const {
   uploadProductsFromCSV,
   uploadShopData,
   getEditorAdmission,
+  getaAgentSource,
 } = require("../controller/partner/partnerupload");
 const multer = require("multer");
 const path = require("path");
@@ -39,6 +40,10 @@ const {
   getSpecShopData,
   partnerAdminLogin,
   getPartnerAdminProfile,
+  addIntensive,
+  editEditorStatus,
+  editForAdminStatus,
+  editVerifyAdmin,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
 const { uploadDocument, getDocument } = require("../controller/partner/document");
@@ -117,5 +122,10 @@ router.get("/profile/:id", getPartnerProfile);
 router.patch("/employer/:id", upload.single("file"), uploadDocument);
 router.get("/employer/:id", getDocument)
 router.get("/editor/getadmission/:id",getEditorAdmission)
+router.patch("/admin/addincentive/:id",upload.none(), addIntensive)
+router.patch("/admin/editEditorStatus/:id", editEditorStatus)
+router.patch("/admin/forAdminEdit/:id", editForAdminStatus);
+router.patch("/admin/editVerifyAdmin/:id", editVerifyAdmin)
+router.get("/upload/getSource/:id", getaAgentSource)
 
 module.exports = router;

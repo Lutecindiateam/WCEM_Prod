@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const admin = require("../../models/admin");
 const User = require("../../models/user");
 const Admin = require("../../models/admin");
+const agent = require("../../models/partner/agent");
 
 // Make sure to replace this with the actual path to your Partner model
 exports.getPartnerProfile = async (req, res) => {
@@ -69,9 +70,9 @@ exports.admin_action = async (req, res) => {
 };
 
 exports.create_partner_account = async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   try {
-    const existingEmailPartner = await Partner.findOne({
+    const existingEmailPartner = await agent.findOne({
       email: req.body.email,
     }).exec();
     if (existingEmailPartner) {
@@ -80,26 +81,26 @@ exports.create_partner_account = async (req, res) => {
 
     const {
       name,
-      phone,
-      address,
-      pincode,
+      // phone,
+      // address,
+      // pincode,
       email,
       password,
-      role,
+      // role,
       // active,
     } = req.body;
     // console.log(employee);
 
     // console.log(password)
 
-    const _partner = new Partner({
+    const _partner = new agent({
       name,
-      phone,
-      address,
-      pincode,
+      // phone,
+      // address,
+      // pincode,
       email,
       password,
-      role,
+      // role,
 
       // active,
     });

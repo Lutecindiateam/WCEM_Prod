@@ -16,7 +16,7 @@ export const editCareer = (obj) => {
 
 
 export const adminlogin = (obj) => {
-  // console.log(obj);
+  console.log(obj);
     return axios
     .post("/partner/admin/login", obj.data)
     .then((response) => {
@@ -57,6 +57,66 @@ export const adminlogin = (obj) => {
     // console.log(obj);
     return axios
       .get("/partner/admin/profile/" + obj.id)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const getCompanyDetails = (obj) => {
+    return axios
+      .get("/admin/getCompanyDetail/" + obj.id)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editSize = (obj) => {
+    return axios
+      .patch("/admin/addincentive/" + obj.id, obj.data)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editDegree = (obj) => {
+    return axios
+      .patch("/admin/editEditorStatus/" + obj.id, obj.data)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editFunctional = (obj) => {
+    return axios
+      .patch("/admin/forAdminEdit/" + obj.id, obj.data)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editIndustry = (obj) => {
+    return axios
+      .patch("/admin/editVerifyAdmin/" + obj.id, obj.data)
       .then((response) => {
         return response;
       })
@@ -224,18 +284,6 @@ export const adminlogin = (obj) => {
   export const getSixCompanies = (obj) => {
     return axios
       .get("/admin/lastsixEmployees")
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
-  
-  export const getCompanyDetails = (obj) => {
-    return axios
-      .get("/admin/getCompanyDetail/" + obj.id)
       .then((response) => {
         return response;
       })
@@ -425,17 +473,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editSize = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularCompany_Size/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deleteSize = (obj) => {
     return axios
@@ -477,17 +515,7 @@ export const adminlogin = (obj) => {
   
   
   
-  export const editDegree = (obj) => {
-    return axios
-      .patch("/admin/editPartiCulardegree_levels/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+ 
   
   export const deleteDegree = (obj) => {
     return axios
@@ -542,17 +570,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editFunctional = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularFunctionalArea/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deleteFunctional = (obj) => {
     return axios
@@ -602,17 +620,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editIndustry = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularIndustry/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+ 
   
   export const deleteIndustry = (obj) => {
     return axios

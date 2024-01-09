@@ -160,6 +160,21 @@ export const getAppliedJobs = (obj) => {
     });
 };
 
+export const candidateForJob = (obj) => {
+  return axios
+    .get("/upload/getSource/" + obj.id)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
+
+
+
 //*********END********/
 
 export const googlelogin = (obj) => {
@@ -572,17 +587,7 @@ export const checkBookmarkApplied = (obj) => {
 //     });
 // };
 
-export const candidateForJob = (obj) => {
-  return axios
-    .get("/job/getCandidateParticular-Job/" + obj.id)
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
+
 
 export const empGetCandidate = (obj) => {
   // console.log("empGetCandidate ::",obj);

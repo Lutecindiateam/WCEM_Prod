@@ -49,25 +49,38 @@ const UploadData = (props) => {
   const state = ["maharastra"];
   const city = ["wardha", "nagpur", "gondia", "amravti"];
 
-  const category = ["SC", "OBC", "Open", "ST", "VJNT"];
+  const category = [
+    "SC",
+    "OBC",
+    "Open",
+    "ST",
+    "VJNT",
+    "Muslim Minority",
+    "SBC",
+    "EWS",
+  ];
 
   const subcategory = ["Supermarket", "Kirana Store", "Oil and Ghee", "Masale"];
 
   const gender = ["Male", "Female"];
-  const course = ["B.tech", "B.E", "MBA", "MCA", "M.Tech", "Diploma"];
+  const course = ["B.Tech", "MBA", "MCA", "M.Tech", "Diploma"];
   const branch = [
-    "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE",
-    "COMPUTER SCIENCE & ENGINEERING",
-    "CIVIL ENGINEERING",
-    "ELECTRONICS AND TELECOMMUNICATION",
-    "ELECTRICAL ENGINEERING",
-    "MECHANICAL ENGINEERING",
-    "DEPARTMENT OF SCIENCE AND HUMANITTIES",
-    "MBA",
-    "MCA",
+    "MECHANICAL",
+    "CIVIL",
+    "ELECTRICAL",
+    "ETC",
+    "CSE",
+    "AIDC",
+    "CAD",
+    "CAM",
+    "CASE",
+    "PEPS",
+    "SS",
+    "AIDC(PG)",
+    "CSE(PG)",
   ];
   const team = ["Adm.Team", "Staff"];
-  const source = ["source1", "source2", "source3"];
+  // const source = ["source1", "source2", "source3"];
   const entrance_exam = ["MCA", "MBA", "BE"];
   const capround = ["Round-I", "Round-II", "Round-III", "Institute Level"];
   const university = [
@@ -104,7 +117,7 @@ const UploadData = (props) => {
     const blob = new Blob([csvTemplate], { type: "text/csv" });
     saveAs(blob, "template.csv");
   };
-  const { Title } = Typography;
+  const { Title } = Typography; 
   const [fileList, setFileList] = useState([]);
   const [loader, setLoader] = useState(false);
   const [csvFile, setCsvFile] = useState(null);
@@ -112,6 +125,7 @@ const UploadData = (props) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [showOtherInput, setShowOtherInput] = useState(false);
+  const [source, setSource] = useState([]);
   // const [document, setDocument] = useState([]);
   // const handleFileChange = (e) => {
   //   const file = e.target.files[0];
@@ -168,6 +182,17 @@ const UploadData = (props) => {
     }
   }, [props.data.loginData]);
 
+  useEffect(() => {
+    let candidateForJobData = props.employee.candidateForJobData;
+    // console.log(candidateForJobData);
+    if (candidateForJobData !== undefined) {
+      if (candidateForJobData?.data?.status == "success") {
+        // if (candidateForJobData?.data?.data.role === "admin") {
+        setSource(candidateForJobData.data.data.response);
+        // }
+      }
+    }
+  }, [props.employee.candidateForJobData]);
   // useEffect(() => {
   //   let addresume = props.candidate.addResumeData;
   //   if (addresume !== undefined) {
@@ -206,28 +231,28 @@ const UploadData = (props) => {
       formData.append("lastExam_passingYear", values.lastExam_passingYear);
       formData.append("team", values.team);
       formData.append("source", values.source);
-      formData.append("entrance_exam", values.entrance_exam);
-      formData.append("dtenumber", values.dtenumber);
-      formData.append("capround", values.capround);
-      formData.append("erpid", values.erpid);
+      // formData.append("entrance_exam", values.entrance_exam);
+      // formData.append("dtenumber", values.dtenumber);
+      // formData.append("capround", values.capround);
+      // formData.append("erpid", values.erpid);
 
-      if (showOtherInput) {
-        formData.append("otherUniversity", values.otherUniversity);
-      } else {
-        formData.append("university", values.university);
-      }
-      formData.append("admission_date", values.admission_date);
-      formData.append("tution_fees", values.tution_fees);
-      formData.append("deve_fees", values.deve_fees);
-      formData.append("total_fees", values.total_fees);
-      formData.append("govt_fees", values.govt_fees);
-      formData.append("discount", values.discount);
-      formData.append("student_fees", values.student_fees);
-      formData.append("paid_fees", values.paid_fees);
-      formData.append("balance_fees", values.balance_fees);
-      formData.append("doc_cap_lett", values.doc_cap_lett);
+      // if (showOtherInput) {
+      //   formData.append("otherUniversity", values.otherUniversity);
+      // } else {
+      //   formData.append("university", values.university);
+      // }
+      // formData.append("admission_date", values.admission_date);
+      // formData.append("tution_fees", values.tution_fees);
+      // formData.append("deve_fees", values.deve_fees);
+      // formData.append("total_fees", values.total_fees);
+      // formData.append("govt_fees", values.govt_fees);
+      // formData.append("discount", values.discount);
+      // formData.append("student_fees", values.student_fees);
+      // formData.append("paid_fees", values.paid_fees);
+      // formData.append("balance_fees", values.balance_fees);
+      // formData.append("doc_cap_lett", values.doc_cap_lett);
       formData.append("category", values.category);
-      formData.append("stu_rec_fees", values.stu_rec_fees);
+      // formData.append("stu_rec_fees", values.stu_rec_fees);
       formData.append("p_id", user.id);
 
       props.requestApplyJob({
@@ -575,13 +600,13 @@ const UploadData = (props) => {
               >
                 {source &&
                   source.map((source) => (
-                    <Select.Option key={source} value={source}>
-                      {source}
+                    <Select.Option key={source.name} value={source.name}>
+                      {source.name}
                     </Select.Option>
                   ))}
               </Select>
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               style={{ marginBottom: "15px" }}
               name="entrance_exam"
               label="Select Entrance Exam"
@@ -867,8 +892,8 @@ const UploadData = (props) => {
               ]}
             >
               <Input type="number" placeholder="Enter Parent Balance Fees" />
-            </Form.Item>
-            <Form.Item
+            </Form.Item> */}
+            {/* <Form.Item
               style={{ marginBottom: "15px" }}
               name="doc_cap_lett"
               label="Document CAP Letter"
@@ -880,7 +905,7 @@ const UploadData = (props) => {
               ]}
             >
               <Input placeholder="Enter Document CAP Letter" />
-            </Form.Item>
+            </Form.Item> */}
             {/* <Form.Item
               style={{ marginBottom: "15px" }}
               name="adhar"

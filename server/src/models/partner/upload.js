@@ -68,15 +68,15 @@ const applySchema = new mongoose.Schema(
     },
     entrance_exam: {
       type: String,
-      required: true,
+      // required: true,
     },
     dtenumber: {
       type: String,
-      required: true,
+      // required: true,
     },
     capround: {
       type: String,
-      required: true,
+      // required: true,
     },
     university: {
       type: String,
@@ -84,23 +84,23 @@ const applySchema = new mongoose.Schema(
     },
     erpid: {
       type: String,
-      required: true,
-    },
-    otherUniversity: {
-      type: String,
       // required: true,
     },
+    // otherUniversity: {
+    //   type: String,
+    //   // required: true,
+    // },
     admission_date: {
       type: Date,
-      required: true,
+      // required: true,
     },
     tution_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     deve_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     category: {
       type: String,
@@ -108,39 +108,39 @@ const applySchema = new mongoose.Schema(
     },
     doc_cap_lett: {
       type: String,
-      required: true,
+      // required: true,
     },
     stu_rec_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     balance_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     paid_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     total_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     govt_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     discount: {
       type: Number,
-      required: true,
+      // required: true,
     },
     student_fees: {
       type: Number,
-      required: true,
+      // required: true,
     },
     p_id: {
       type: String,
-      required: true,
+      // required: true,
     },
     documents: {
       adhar: { type: String, default: null },
@@ -163,6 +163,22 @@ const applySchema = new mongoose.Schema(
       cet: { type: String, default: null },
       other: { type: String, default: null },
     },
+    adv_payble_amt: {
+      type: String,
+      // required: true,
+    },
+    paid_amount: {
+      type: String,
+      // required: true,
+    },
+    balance: {
+      type: String,
+      // required: true,
+    },
+    status: {
+      type: String,
+      default: false
+    }
   },
 
   { timestamps: true }

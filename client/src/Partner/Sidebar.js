@@ -91,11 +91,19 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
           display: "flex",
           // justifyContent: "center",
           // alignItems: "center",
-          paddingLeft: "15px"
+          paddingLeft: "15px",
         }}
       >
-        <img src={ob} alt="ob" style={{ height: "80%", width: "70px"}} />
-         <strong style={{ color: "gold", fontWeight: "bold", fontSize: "25px", paddingLeft:"10px" , paddingTop: "10px"}}>
+        <img src={ob} alt="ob" style={{ height: "80%", width: "70px" }} />
+        <strong
+          style={{
+            color: "gold",
+            fontWeight: "bold",
+            fontSize: "25px",
+            paddingLeft: "10px",
+            paddingTop: "10px",
+          }}
+        >
           W.C.E.M.
         </strong>
         {/* <strong style={{ color: "gold", fontWeight: "bold", fontSize: "20px" }}>
@@ -110,7 +118,7 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
       </div>
 
       <Divider />
-      <br/>
+      <br />
       <List>
         <ListItem key="dashboard" disablePadding>
           <ListItemButton to="/dashboard">
@@ -120,14 +128,16 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             <ListItemText primary="Dashboard" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="upload" disablePadding>
-          <ListItemButton to="/upload">
-            <ListItemIcon>
-              <AddIcon style={{ color: "white" }} />
-            </ListItemIcon>
-            <ListItemText primary="Upload Data" style={{ color: "white" }} />
-          </ListItemButton>
-        </ListItem>
+        {user.role === "clerk" && (
+          <ListItem key="upload" disablePadding>
+            <ListItemButton to="/upload">
+              <ListItemIcon>
+                <AddIcon style={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary="Upload Data" style={{ color: "white" }} />
+            </ListItemButton>
+          </ListItem>
+        )}
         <ListItem key="allData" disablePadding>
           <ListItemButton to="/all-data">
             <ListItemIcon>
@@ -157,7 +167,7 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
                 />
               </ListItemButton>
             </ListItem>
-            <ListItem key="role" disablePadding>
+            {/* <ListItem key="role" disablePadding>
               <ListItemButton to="/create">
                 <ListItemIcon>
                   <AddModeratorIcon style={{ color: "white" }} />
@@ -167,7 +177,7 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
                   style={{ color: "white" }}
                 />
               </ListItemButton>
-            </ListItem>
+            </ListItem> */}
           </>
         ) : null}
         <ListItem key="account" disablePadding>

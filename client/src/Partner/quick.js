@@ -22,7 +22,7 @@ export default function QuickLinks({ sideNavOpenKeysHandler }) {
 
       <div className="quick-links-container">
         <QuickLinksContainer
-          link="/upload"
+          // link="/upload"
           bg="#344D6740"
           linkName="Upload Data"
           icon={

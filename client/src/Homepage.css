@@ -2,7 +2,7 @@
 
 /* Default background image for web (greater than or equal to 400 pixels) */
 .container {
-    background-image: url('./image/web-image.png');
+    /* background-image: url('./image/web-image.png'); */
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -13,6 +13,6 @@
 /* Background image for mobile (less than 400 pixels) */
 @media (max-width: 768px) {
     .container {
-        background-image: url('./image/frontpage.jpg');
+        /* background-image: url('./image/frontpage.jpg'); */
     }
 }

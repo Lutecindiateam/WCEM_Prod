@@ -1,70 +1,50 @@
-const mongoose = require("mongoose")
-
-
-
-
+const mongoose = require("mongoose");
 
 const applySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
 
-{
-    
-   name:{
-
-        type: String,
-
-        required: true,
-        trim: true
-
+      required: true,
+      trim: true,
     },
 
-    address:{
+    address: {
+      type: String,
 
-        type:String,
-
-        required: true,
-        trim: true
-
+      required: true,
+      trim: true,
     },
-    phone :{
+    phone: {
+      type: Number,
 
-        type:Number,
-
-        required: true,
-        trim: true
-
+      required: true,
+      trim: true,
     },
 
-    amount:{
+    amount: {
+      type: Number,
 
-        type:Number,
-
-        required: true,
-        trim: true
-
+      required: true,
+      trim: true,
     },
-    date:{
+    date: {
+      type: String,
 
-        type:String,
-
-        required: true,
-        trim: true
-
+      required: true,
+      trim: true,
     },
-    group_id:{
-        type: String,
-        trim: true
+    group_id: {
+      type: String,
+      trim: true,
     },
-    receiver:{
-        type: String,
-        trim: true
-    }
+    receiver: {
+      type: String,
+      trim: true,
+    },
+  },
 
+  { timestamps: true }
+);
 
-
-},
-
-{timestamps: true}
-
-)
-
-module.exports = mongoose.model('receipt', applySchema)
+module.exports = mongoose.model("receipt", applySchema);

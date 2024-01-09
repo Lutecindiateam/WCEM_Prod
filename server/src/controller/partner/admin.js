@@ -3,22 +3,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const upload = require("../../models/partner/upload");
 
-exports.getPartnerAdminProfile = async(req, res) => {
-  try{
+exports.getPartnerAdminProfile = async (req, res) => {
+  try {
     const id = req.params.id;
-    const response = await partnerAdmin.findById(id).exec()
-    if(response){
+    const response = await partnerAdmin.findById(id).exec();
+    if (response) {
       return res.status(200).json({
         status: "success",
         data: response,
-        message: "Admin profile get succesfully"
-      })
+        message: "Admin profile get succesfully",
+      });
     }
-// console.log(response);
-  }catch(err){
+    // console.log(response);
+  } catch (err) {
     return res.status(500).json({ message: "Internal problem" });
   }
-}
+};
 
 exports.partnerAdminLogin = async (req, res) => {
   try {
@@ -26,12 +26,15 @@ exports.partnerAdminLogin = async (req, res) => {
     // Check if user exists
 
     await partnerAdmin.findOne({ email }).then((user) => {
-      // console.log(user);
+      // console.log(req.body);
       // console.log("EMAIL :: ", user)
       if (!user) {
         return res.status(400).json({ error: "Invalid email or password" });
       } else if (user.active == "pending") {
-        return res.status(400).json({ error: "Your request is currently pending. Please contact our support team." });
+        return res.status(400).json({
+          error:
+            "Your request is currently pending. Please contact our support team.",
+        });
       }
 
       bcrypt.compare(password, user.password, function (error, isMatch) {
@@ -47,7 +50,7 @@ exports.partnerAdminLogin = async (req, res) => {
             { expiresIn: 31556926 },
             (err, token) => {
               return res.status(200).json({
-                data: { id: user.id, token: token, role:user.role },
+                data: { id: user.id, token: token, role: user.role ,value: user.value},
                 message: "Sign In success",
                 status: "success",
               });
@@ -67,7 +70,7 @@ exports.partnerAdminLogin = async (req, res) => {
 exports.getShopsData = async (req, res) => {
   // console.log(req);
   try {
-    const response = await upload.find();
+    const response = await upload.find(); 
     if (response.length > 0) {
       return res.status(200).json({
         data: { response },
@@ -82,7 +85,7 @@ exports.getShopsData = async (req, res) => {
 exports.getSpecShopData = async (req, res) => {
   try {
     const response = await upload.find({ p_id: req.params.id });
-    if (response.length > 0) {    
+    if (response.length > 0) {
       return res.status(200).json({
         data: { response },
         status: "success",
@@ -92,3 +95,106 @@ exports.getSpecShopData = async (req, res) => {
     return res.status(500).json({ message: "Internal problem" });
   }
 };
+
+exports.addIntensive = async (req, res) => {
+  try {
+    // console.log(req.params.id);
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          adv_payble_amt: req.body.adv_payble_amt,
+          paid_amount: req.body.paid_amount,
+          balance: req.body.balance,
+        },
+      },
+      { new: true }
+    );
+    // console.log(response);
+
+    if (response) {
+      return res.status(200).json({
+        data: { response },
+        status: "success",
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+  }
+};
+
+exports.editEditorStatus = async(req , res) =>{
+   try{
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: "editor"
+        },
+      },
+      { new: true }
+    )
+    if (response) {
+      return res.status(200).json({
+        // data: { response },
+        status: "success",
+        message: "Status Change Successfully"
+      });
+    }
+   }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+   }
+}
+
+exports.editForAdminStatus = async(req, res) =>{
+  try{
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: "admin"
+        },
+      },
+      { new: true }
+    )
+    if (response) {
+      return res.status(200).json({
+        // data: { response },
+        status: "success",
+        message: "Status Change Successfully"
+      });
+    }
+   }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+   }
+}
+exports.editVerifyAdmin = async(req, res) =>{
+  try{
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: "verify"
+        },
+      },
+      { new: true }
+    )
+    if (response) {
+      return res.status(200).json({
+        // data: { response },
+        status: "success",
+        message: "Status Change Successfully"
+      });
+    }
+   }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+   }
+}

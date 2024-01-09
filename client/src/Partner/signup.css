@@ -18,7 +18,7 @@
   /* Media query for mobile devices */
   @media (max-width: 768px) {
     .background {
-      background-image: url("../image/ICE\ nologo.png");
+      background-image: url("../image/new1.png");
       background-size: cover;
 
     }

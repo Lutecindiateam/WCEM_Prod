@@ -12,17 +12,22 @@ import {
   requestAdminMonthJob,
   requestGetCandidate,
   requestGetApplyJob,
+  requestCandidateForJob
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Pie from "./pie";
 import Bar from "./bar";
 import DemoBar from "./calender";
 import Graph from "./bar";
+import { Navigate } from "react-router-dom";
+
 
 const Dashboard = ({ information, ...props }) => {
   const [user, setUser] = useState({});
   const [list, setList] = useState([]);
 
+ 
+  // console.log(user);
   // useEffect(() => {
   //   let loginData = props.candidate.loginData;
   //   if (loginData !== undefined) {
@@ -57,7 +62,7 @@ const Dashboard = ({ information, ...props }) => {
 
   //for proxy & employee  registration
   useEffect(() => {
-    console.log("hello");
+    // console.log("hello");
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
@@ -74,6 +79,9 @@ const Dashboard = ({ information, ...props }) => {
           role: loginData.data.data.role,
           token: loginData.data.data.token,
         });
+        props.requestCandidateForJob({
+          id: loginData.data.data.id
+        })
       }
     }
   }, [props.candidate.loginData, props.candidate.applyJobData]);
@@ -99,21 +107,12 @@ const Dashboard = ({ information, ...props }) => {
   //   }
   // }, [props?.candidate?.getApplyJobData]);
 
-
   //for admin total registration data
   useEffect(() => {
     let loginData = props.data.loginData;
-    console.log(loginData);
-    console.log(
-      loginData?.data?.data.role === "admin" ||
-        loginData?.data?.data.role === "editor"
-    );
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-        if (
-          loginData?.data?.data.role === "admin" ||
-          loginData?.data?.data.role === "editor"
-        ) {
+        if (loginData?.data?.data.role === "admin" || loginData?.data?.data.role === "editor") {
           setUser(loginData.data.data);
           props.requestAdminMonthJob({
             token: loginData.data.data.token,
@@ -123,7 +122,7 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.loginData]);
 
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     let monthWiseJobData = props.data.monthWiseJobData;
     if (monthWiseJobData !== undefined) {
@@ -133,10 +132,11 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.monthWiseJobData]);
 
-  console.log(list);
+  
   return (
     <Layout>
       <Fragment>
+        <br />
         <div>
           <QuickLinks />
           <br />
@@ -220,7 +220,7 @@ const Dashboard = ({ information, ...props }) => {
                             ? information?.sale_profit
                             : 0}
                         </h3>
-                        <span className="">Digital</span>
+                        <span className="">Approved Admissions</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -304,6 +304,7 @@ const mapDispatchToProps = (dispatch) =>
       requestAdminMonthJob,
       requestGetCandidate,
       requestGetApplyJob,
+      requestCandidateForJob
     },
     dispatch
   );

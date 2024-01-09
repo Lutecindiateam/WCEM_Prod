@@ -1,6 +1,7 @@
 const fs = require("fs");
 const upload = require("../../models/partner/upload");
 const csv = require("csv-parser");
+const agent = require("../../models/partner/agent");
 
 exports.uploadProductsFromCSV = (req, res) => {
   // console.log(req.params);
@@ -76,7 +77,6 @@ exports.uploadShopData = async (req, res) => {
   try {
     // console.log(req.params);
     // const { p_id } = req.params.id;
-
     const {
       candidateName,
       mobile,
@@ -88,33 +88,33 @@ exports.uploadShopData = async (req, res) => {
       lastExam_passingYear,
       team,
       source,
-      entrance_exam,
-      dtenumber,
-      capround,
-      erpid,
-      university,
-      admission_date,
-      tution_fees,
-      deve_fees,
-      total_fees,
-      govt_fees,
-      discount,
-      student_fees,
-      paid_fees,
-      balance_fees,
-      doc_cap_lett,
+      // entrance_exam,
+      // dtenumber,
+      // capround,
+      // erpid,
+      // admission_date,
+      // tution_fees,
+      // deve_fees,
+      // total_fees,
+      // govt_fees,
+      // discount,
+      // student_fees,
+      // paid_fees,
+      // balance_fees,
+      // doc_cap_lett,
       category,
-      stu_rec_fees,
-      p_id
+      // stu_rec_fees,
+      p_id,
     } = req.body;
-    let documents = [];
-console.log(req.body);
+    const university  = req.body.university || req.body.otherUniversity;
+    // let documents = [];
+    // console.log(req.body);
 
-    if (req.files && req.files.length > 0) {
-      documents = req.files.map((file) => {
-        return { img: file.filename };
-      }); 
-    }
+    // if (req.files && req.files.length > 0) {
+    //   documents = req.files.map((file) => {
+    //     return { img: file.filename };
+    //   });
+    // }
     const student = new upload({
       candidateName,
       mobile,
@@ -126,24 +126,24 @@ console.log(req.body);
       lastExam_passingYear,
       team,
       source,
-      entrance_exam,
-      dtenumber,
-      capround,
-      erpid,
-      university,
-      admission_date,
-      tution_fees,
-      deve_fees,
-      total_fees,
-      govt_fees,
-      discount,
-      student_fees,
-      paid_fees,
-      balance_fees,
-      doc_cap_lett,
+      // entrance_exam,
+      // dtenumber,
+      // capround,
+      // erpid,
+      // university,
+      // admission_date,
+      // tution_fees,
+      // deve_fees,
+      // total_fees,
+      // govt_fees,
+      // discount,
+      // student_fees,
+      // paid_fees,
+      // balance_fees,
+      // doc_cap_lett,
       category,
-      stu_rec_fees,
-      documents,
+      // stu_rec_fees,
+      // documents,
       p_id,
     });
 
@@ -155,15 +155,14 @@ console.log(req.body);
         message: "Data uploaded successfully",
       });
     }
-    // console.log(response);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-exports.getEditorAdmission = async(req, res) => {
-  try{
+exports.getEditorAdmission = async (req, res) => {
+  try {
     const response = await upload.find();
     if (response.length > 0) {
       return res.status(200).json({
@@ -171,9 +170,26 @@ exports.getEditorAdmission = async(req, res) => {
         status: "success",
       });
     }
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+  }
+};
+
+exports.getaAgentSource = async (req , res) =>  {
+  try{
+    const response = await agent.find();
+    if (response) {
+      return res.status(200).json({
+        data: { response },
+        status: "success",
+      });
+    }
+// console.log(req.params);
   }catch(err){
     return res.status(500).json({
-      message: "Something Wrong"
-    })
+      message: "Something Wrong",
+    });
   }
 }
