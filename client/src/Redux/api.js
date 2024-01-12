@@ -35,6 +35,20 @@ export const login = (obj) => {
   );
 };
 
+export const emplogin = (obj) => {
+  // console.log(obj.data);
+  return axios
+    .post("/agent/login", obj.data)
+    .then((response) => {
+      // console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
 export const addResume = (obj) => {
   return axios
     .post("/upload-csv/" + obj.id, obj.data.formData, {
@@ -172,8 +186,32 @@ export const candidateForJob = (obj) => {
     });
 };
 
+export const empGetCandidate = (obj) => {
+  // console.log("empGetCandidate ::",obj);
+  return axios
+    .get("/agent/profile/" + obj.id)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
 
-
+export const getIterview = (obj) => {
+  return axios
+    .get("/agent/getstudent/" + obj.id, {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
 
 //*********END********/
 
@@ -252,19 +290,6 @@ export const empregister = (obj) => {
     });
 };
 
-export const emplogin = (obj) => {
-  // console.log(obj.data);
-  return axios
-    .post("/employer/login", obj.data)
-    .then((response) => {
-      // console.log(response);
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
 
 export const empdeleteAccount = (obj) => {
   return axios
@@ -589,18 +614,7 @@ export const checkBookmarkApplied = (obj) => {
 
 
 
-export const empGetCandidate = (obj) => {
-  // console.log("empGetCandidate ::",obj);
-  return axios
-    .get("/candidate/simple/" + obj.id)
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
+
 
 export const confirmInterview = (obj) => {
   return axios
@@ -722,19 +736,7 @@ export const interview = (obj) => {
     });
 };
 
-export const getIterview = (obj) => {
-  return axios
-    .get("/employer/allinterviewlistcomapny", {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
+
 
 export const reject = (obj) => {
   return axios

@@ -125,6 +125,31 @@ export const adminlogin = (obj) => {
         return err.response;
       });
   };
+
+  export const editCategory = (obj) => {
+    return axios
+      .patch("/admin/editSecondLast/" + obj.id, obj.data)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+  
+  export const editTag = (obj) => {
+    return axios
+      .patch("/admin/editSuperAdmin/" + obj.id, obj.data)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+  
   //*************END*********//
 
 
@@ -672,17 +697,6 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editCategory = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularJobCategory/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
   
   export const deleteCategory = (obj) => {
     return axios
@@ -734,18 +748,7 @@ export const adminlogin = (obj) => {
   };
   
   //edit block field for company
-  export const editTag = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularjob_tags/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
-  
+ 
 
   
   export const deleteTag = (obj) => {

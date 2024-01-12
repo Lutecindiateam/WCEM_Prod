@@ -22,6 +22,7 @@ import Pie from "./Partner/pie";
 import { DocumentUploader } from "./Partner/documentUpload";
 import CreateRole from "./Partner/Admin/CreateRole";
 import  DocView  from "./Partner/documentView";
+import AgentSignin from "./Partner/AgentSignin";
 
 const router = createBrowserRouter([
   {
@@ -104,10 +105,10 @@ const router = createBrowserRouter([
     path: "/doc/:branch/:id",
     element: <DocView />,
   },
-  // {
-  //   path:"/edit",
-  //   element: <
-  // },
+  {
+    path:"/login",
+    element: <AgentSignin />
+  },
   // {
   //   path:"/pie",
   //   element:<Pie />

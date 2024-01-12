@@ -125,6 +125,7 @@ exports.addIntensive = async (req, res) => {
   }
 };
 
+//beney paul sir
 exports.editEditorStatus = async(req , res) =>{
    try{
     const response = await upload.findOneAndUpdate(
@@ -150,6 +151,7 @@ exports.editEditorStatus = async(req , res) =>{
    }
 }
 
+//madankar sir
 exports.editForAdminStatus = async(req, res) =>{
   try{
     const response = await upload.findOneAndUpdate(
@@ -174,6 +176,8 @@ exports.editForAdminStatus = async(req, res) =>{
     });
    }
 }
+
+//chede sir
 exports.editVerifyAdmin = async(req, res) =>{
   try{
     const response = await upload.findOneAndUpdate(
@@ -198,3 +202,57 @@ exports.editVerifyAdmin = async(req, res) =>{
     });
    }
 }
+
+//dahikar sir 
+exports.editSuperAdmin = async(req, res) =>{
+  try{
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: "super"
+        },
+      },
+      { new: true }
+    )
+    if (response) {
+      return res.status(200).json({
+        // data: { response },
+        status: "success",
+        message: "Status Change Successfully"
+      });
+    }
+   }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+   }
+}
+
+//superadmin
+
+exports.editSuperAdmin = async(req, res) =>{
+  try{
+    const response = await upload.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: true
+        },
+      },
+      { new: true }
+    )
+    if (response) {
+      return res.status(200).json({
+        // data: { response },
+        status: "success",
+        message: "Status Change Successfully"
+      });
+    }
+   }catch(err){
+    return res.status(500).json({
+      message: "Something Wrong",
+    });
+   }
+}
+

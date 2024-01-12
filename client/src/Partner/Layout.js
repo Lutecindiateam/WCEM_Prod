@@ -15,6 +15,7 @@ import {
   requestAdminMonthJob,
   requestAdminGetProfile,
   requestJobDetails,
+  requestEmpGetCandidate
 } from "../Redux/actions";
 import { connect } from "react-redux";
 
@@ -63,13 +64,26 @@ const Layout = ({ children, ...props }) => {
       }
     }
   }, [props.candidate.loginData]);
+  useEffect(() => {
+    let empLoginData = props.employee.empLoginData;
+    // console.log(loginData);
+    if (empLoginData !== undefined) {
+      if (empLoginData?.data?.status === "success") {
+        setUser(empLoginData.data.data);
+      }
+    }
+  }, [props.employee.empLoginData]);
 
   useEffect(() => {
     let loginData = props.data.loginData;
     // console.log(loginData);
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-        if (loginData?.data?.data.role === "admin" || loginData?.data?.data.role === "editor") {
+        if (
+          loginData?.data?.data.role === "admin" ||
+          loginData?.data?.data.role === "editor" ||
+          loginData?.data?.data.role === "superadmin"
+        ) {
           setUser(loginData.data.data);
         }
       }
@@ -78,8 +92,16 @@ const Layout = ({ children, ...props }) => {
 
   // console.log(user);
   useEffect(() => {
-    if (user.role === "admin" || user.role === "editor") {
+    if (
+      user.role === "admin" ||
+      user.role === "editor" ||
+      user.role === "superadmin"
+    ) {
       props.requestAdminGetProfile({
+        id: user.id,
+      });
+    } else if (user.role === "agent") {
+      props.requestEmpGetCandidate({
         id: user.id,
       });
     } else {
@@ -95,7 +117,8 @@ const Layout = ({ children, ...props }) => {
       if (getProfileData?.data?.status == "success") {
         if (
           getProfileData?.data?.data.role === "admin" ||
-          getProfileData?.data?.data.role === "editor"
+          getProfileData?.data?.data.role === "editor" ||
+          getProfileData?.data?.data.role === "superadmin"
         ) {
           setProfile(getProfileData.data.data);
         }
@@ -112,6 +135,14 @@ const Layout = ({ children, ...props }) => {
     }
   }, [props.candidate.jobDetailsData]);
 
+  useEffect(() => {
+    let empGetCandidateData = props.employee.empGetCandidateData;
+    if (empGetCandidateData !== undefined) {
+      if (empGetCandidateData?.data?.status == "success") {
+        setProfile(empGetCandidateData.data.data);
+      }
+    }
+  }, [props.employee.empGetCandidateData]);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -217,7 +248,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    { requestAdminMonthJob, requestAdminGetProfile, requestJobDetails },
+    { requestAdminMonthJob, requestAdminGetProfile, requestJobDetails ,requestEmpGetCandidate},
     dispatch
   );
 

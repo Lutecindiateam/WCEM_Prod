@@ -49,9 +49,9 @@ const applySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    value:{
-      type: Boolean
-    }
+    value: {
+      type: Boolean,
+    },
   },
 
   { timestamps: true }

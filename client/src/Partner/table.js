@@ -15,6 +15,9 @@ import {
   requestAdminEditDegree,
   requestAdminEditFunctional,
   requestAdminEditIndustry,
+  requestAdminEditCategory,
+  requestAdminEditTag,
+  requestGetInterview
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
@@ -350,6 +353,33 @@ const TableData = (props) => {
     }
   };
 
+  const handleFinalEdit = (FinalId) => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to proceed with the approval?"
+    );
+    if (userConfirmed) {
+      props.requestAdminEditCategory({
+        id: FinalId,
+        token: user.token,
+      });
+    } else {
+      console.log("User canceled the action.");
+    }
+  };
+
+  const handleSuperAdminEdit = (sid) => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to proceed with the approval?"
+    );
+    if (userConfirmed) {
+      props.requestAdminEditTag({
+        id: sid,
+        token: user.token,
+      });
+    } else {
+      console.log("User canceled the action.");
+    }
+  };
   useEffect(() => {
     let editDegreeData = props.data.editDegreeData;
     if (editDegreeData !== undefined) {
@@ -359,7 +389,34 @@ const TableData = (props) => {
       }
     }
   }, [props.data.editDegreeData]);
-
+  useEffect(() => {
+    let editIndustryData = props.data.editIndustryData;
+    if (editIndustryData !== undefined) {
+      if (editIndustryData?.data?.status == "success") {
+        Swal.fire("Good job!", "Approved Successfully.", "success");
+        props.data.editIndustryData = undefined;
+      }
+    }
+  }, [props.data.editIndustryData]);
+  useEffect(() => {
+    let editCategoryData = props.data.editCategoryData;
+    if (editCategoryData !== undefined) {
+      if (editCategoryData?.data?.status == "success") {
+        Swal.fire("Good job!", "Approved Successfully.", "success");
+        props.data.editCategoryData = undefined;
+      }
+    }
+  }, [props.data.editCategoryData]);
+  
+  useEffect(() => {
+    let editTagData = props.data.editTagData;
+    if (editTagData !== undefined) {
+      if (editTagData?.data?.status == "success") {
+        Swal.fire("Good job!", "Approved Successfully.", "success");
+        props.data.editTagData = undefined;
+      }
+    }
+  }, [props.data.editTagData]);
   const onSubmit = (values) => {
     // Handle form submission here
     let form = new FormData();
@@ -381,18 +438,23 @@ const TableData = (props) => {
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-        // setUser(loginData.data.data);
-        // if (loginData.data.data.role === "editor") {
-        //   props.requestGetApplyJob({
-        //     id: loginData.data.data.id,
-        //     role: loginData.data.data.role,
-        //     token: loginData.data.data.token,
-        //   });
-        // }
         props.requestGetCandidate({
           id: loginData.data.data.id,
           role: loginData.data.data.role,
           token: loginData.data.data.token,
+        });
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    let empLoginData = props.employee.empLoginData;
+    if (empLoginData !== undefined) {
+      if (empLoginData?.data?.status == "success") {
+        props.requestGetInterview({
+          id: empLoginData.data.data.id,
+          role: empLoginData.data.data.role,
+          token: empLoginData.data.data.token,
         });
       }
     }
@@ -404,7 +466,8 @@ const TableData = (props) => {
       if (loginData?.data?.status == "success") {
         if (
           loginData?.data?.data.role === "admin" ||
-          loginData.data.data.role === "editor"
+          loginData.data.data.role === "editor" ||
+          loginData.data.data.role === "superadmin"
         ) {
           setUser(loginData.data.data);
           props.requestAdminMonthJob({
@@ -417,8 +480,20 @@ const TableData = (props) => {
     props.data.loginData,
     props.data.editSizeData,
     props.data.editDegreeData,
-    props.data.editIndustryData
+    props.data.editIndustryData,
+    props.data.editCategoryData,
+    props.data.editTagData,
   ]);
+  
+  useEffect(() => {
+    let getInterviewData = props.employee.getInterviewData;
+    // console.log(getCandidateData);
+    if (getInterviewData !== undefined) {
+      if (getInterviewData?.data?.status === "success") {
+        setList(getInterviewData.data.data.response);
+      }
+    }
+  }, [props.employee.getInterviewData, props.data.loginData]);
 
   useEffect(() => {
     let getCandidateData = props.candidate.getCandidateData;
@@ -485,11 +560,11 @@ const TableData = (props) => {
     },
     {
       field: "more",
-      headerName: "More Details",
+      headerName: "Details",
       flex: 1,
       renderCell: (params) => (
         <Button onClick={() => handleOpen(params.row.document.id)}>
-          More Info..
+          More Details..
         </Button>
       ),
     },
@@ -499,20 +574,20 @@ const TableData = (props) => {
         headerName: "Approval",
         flex: 1,
         renderCell: (params) =>
-          params.row.approval.status === "editor" ? (
+          params.row.approval.status === "false" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleApproval(params.row.approval.id)}
+            >
+              Approve
+            </Button>
+          ) : (
             <Button
               variant="contained"
               color="primary" // or "success" depending on your theme
               disabled={true}
             >
               Approved
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() => handleApproval(params.row.approval.id)}
-            >
-              Approve
             </Button>
           ),
       },
@@ -530,20 +605,20 @@ const TableData = (props) => {
             >
               Waiting
             </Button>
-          ) : params.row.approval.status === "admin" ? (
+          ) : params.row.approval.status === "editor" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleEditorApproval(params.row.approval.id)}
+            >
+              Approve
+            </Button>
+          ) : (
             <Button
               variant="contained"
               disabled={true}
               // onClick={() => handleApproval(params.row.approval.id)}
             >
               Approved
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              onClick={() => handleEditorApproval(params.row.approval.id)}
-            >
-              Approve
             </Button>
           ),
       },
@@ -569,7 +644,14 @@ const TableData = (props) => {
             >
               Waiting
             </Button>
-          ) : params.row.approval.status === "verify" ? (
+          ) : params.row.approval.status === "admin" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleEditVerify(params.row.adminapproval.id)}
+            >
+              Approve
+            </Button>
+          ) : (
             <Button
               variant="contained"
               disabled={true}
@@ -577,12 +659,100 @@ const TableData = (props) => {
             >
               Approved
             </Button>
-          ) : (
+          ),
+      },
+    user.role === "admin" &&
+      user.value === false && {
+        field: "adminverify",
+        headerName: "Approval",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "false" ? (
             <Button
               variant="contained"
-              onClick={() => handleEditVerify(params.row.adminapproval.id)}
+              color="info" // or "success" depending on your theme
+              disabled={true}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "editor" ? (
+            <Button
+              variant="contained"
+              disabled={true}
+              // onClick={() => handleApproval(params.row.approval.id)}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "admin" ? (
+            <Button
+              variant="contained"
+              disabled={true}
+              // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "verify" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleFinalEdit(params.row.adminverify.id)}
             >
               Approve
+            </Button>
+          ) : (
+            <Button variant="contained" disabled={true}>
+              Approved
+            </Button>
+          ),
+      },
+
+    user.role === "superadmin" &&
+      user.value === true && {
+        field: "superadmin",
+        headerName: "Approval",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "false" ? (
+            <Button
+              variant="contained"
+              color="info" // or "success" depending on your theme
+              disabled={true}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "editor" ? (
+            <Button
+              variant="contained"
+              disabled={true}
+              // onClick={() => handleApproval(params.row.approval.id)}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "admin" ? (
+            <Button
+              variant="contained"
+              disabled={true}
+              // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "verify" ? (
+            <Button
+              variant="contained"
+              disabled={true}
+              // onClick={() => handleFinalEdit(params.row.adminverify.id)}
+            >
+              Waiting
+            </Button>
+          ) : params.row.approval.status === "super" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleSuperAdminEdit(params.row.superadmin.id)}
+            >
+              Approve
+            </Button>
+          ) : (
+            <Button variant="contained" disabled={true}>
+              Approved
             </Button>
           ),
       },
@@ -609,6 +779,14 @@ const TableData = (props) => {
       status: item.status,
     },
     adminapproval: {
+      id: item._id,
+      status: item.status,
+    },
+    adminverify: {
+      id: item._id,
+      status: item.status,
+    },
+    superadmin: {
       id: item._id,
       status: item.status,
     },
@@ -660,6 +838,9 @@ const mapDispatchToProps = (dispatch) =>
       requestAdminEditDegree,
       requestAdminEditFunctional,
       requestAdminEditIndustry,
+      requestAdminEditCategory,
+      requestAdminEditTag,
+      requestGetInterview
     },
     dispatch
   );

@@ -158,7 +158,7 @@ const PartnerLogin = (props) => {
             <Typography
               variant="body2"
               align="right"
-              style={{ color: "white", fontSize: "16px" }}
+              style={{ color: "white", fontSize: "20px" }}
             >
               For Admin{" "}
               <a href="/partner/admin" style={{ color: "white" }}>

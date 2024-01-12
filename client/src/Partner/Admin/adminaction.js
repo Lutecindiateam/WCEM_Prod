@@ -274,7 +274,7 @@ const Adminaction = (props) => {
             <br />
 
             <Button type="submit" variant="contained" color="primary" fullWidth>
-              Add User
+              Add Agent
             </Button>
           </form>
         </div>

@@ -219,6 +219,12 @@ const UploadData = (props) => {
   };
 
   const onFinish = async (values) => {
+    const { source: sourceName } = values;
+
+    // Get the user ID corresponding to the selected name (assuming you have a mapping)
+    const selectedUser = source.find((user) => user.name === sourceName);
+    const sourceId = selectedUser ? selectedUser._id : null;
+
     try {
       let formData = new FormData();
       formData.append("candidateName", values.candidateName);
@@ -254,6 +260,7 @@ const UploadData = (props) => {
       formData.append("category", values.category);
       // formData.append("stu_rec_fees", values.stu_rec_fees);
       formData.append("p_id", user.id);
+      formData.append("source_id", sourceId)
 
       props.requestApplyJob({
         token: user.token,

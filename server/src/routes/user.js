@@ -34,6 +34,9 @@ const {
   admin_action,
   adminupdate,
   getPartnerProfile,
+  authenticate_agent,
+  agentProfile,
+  getAgentStudent,
 } = require("../controller/partner/partner");
 const {
   getShopsData,
@@ -44,6 +47,7 @@ const {
   editEditorStatus,
   editForAdminStatus,
   editVerifyAdmin,
+  editSuperAdmin,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
 const { uploadDocument, getDocument } = require("../controller/partner/document");
@@ -120,12 +124,16 @@ router.get("/profile/:id", getPartnerProfile);
 
 // router.post("/upload", upload.single("files"), uploadDocument);
 router.patch("/employer/:id", upload.single("file"), uploadDocument);
-router.get("/employer/:id", getDocument)
-router.get("/editor/getadmission/:id",getEditorAdmission)
-router.patch("/admin/addincentive/:id",upload.none(), addIntensive)
-router.patch("/admin/editEditorStatus/:id", editEditorStatus)
+router.get("/employer/:id", getDocument);
+router.get("/editor/getadmission/:id",getEditorAdmission);
+router.patch("/admin/addincentive/:id",upload.none(), addIntensive);
+router.patch("/admin/editEditorStatus/:id", editEditorStatus);
 router.patch("/admin/forAdminEdit/:id", editForAdminStatus);
-router.patch("/admin/editVerifyAdmin/:id", editVerifyAdmin)
-router.get("/upload/getSource/:id", getaAgentSource)
-
+router.patch("/admin/editVerifyAdmin/:id", editVerifyAdmin);
+router.patch("/admin/editSecondLast/:id", editSuperAdmin);
+router.patch("/admin/editSuperAdmin/:id", editSuperAdmin);
+router.get("/upload/getSource/:id", getaAgentSource);
+router.post("/agent/login" , authenticate_agent)
+router.get("/agent/profile/:id", agentProfile);
+router.get("/agent/getstudent/:id", getAgentStudent)
 module.exports = router;
