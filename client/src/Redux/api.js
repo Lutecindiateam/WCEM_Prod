@@ -19,20 +19,15 @@ export const register = (obj) => {
 };
 
 export const login = (obj) => {
-  // console.log(axios);
-  console.log(obj.data);
-  return (
-    axios
-      // .post("/candidate/login", obj.data)
-      .post("/authenticate_partner", obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      })
-  );
+  return axios
+    .post("/authenticate_partner", obj.data)
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
 };
 
 export const emplogin = (obj) => {
@@ -95,7 +90,7 @@ export const recentlyJob = (obj) => {
 export const getCandidate = (obj) => {
   // console.log(obj);
   return axios
-    .get("/specific/shopData/" + obj.id, obj,{
+    .get("/specific/shopData/" + obj.id, obj, {
       headers: { Authorization: `Bearer ${obj.token}` },
     })
     .then((response) => {
@@ -162,7 +157,7 @@ export const getemp = (obj) => {
 
 export const getAppliedJobs = (obj) => {
   return axios
-    .get("/editor/getadmission/" + obj.id , {
+    .get("/editor/getadmission/" + obj.id, {
       headers: { Authorization: `Bearer ${obj.token}` },
     })
     .then((response) => {
@@ -290,7 +285,6 @@ export const empregister = (obj) => {
     });
 };
 
-
 export const empdeleteAccount = (obj) => {
   return axios
     .post("/employer/removeemployer/" + obj.id, obj.data, {
@@ -318,10 +312,6 @@ export const emplogo = (obj) => {
       return err.response;
     });
 };
-
-
-
-
 
 export const getJobs = (obj) => {
   // console.log(obj);
@@ -528,7 +518,6 @@ export const candidateresume = (obj) => {
     });
 };
 
-
 export const jobAlert = (obj) => {
   return axios
     .get("/job/jobalert", {
@@ -611,10 +600,6 @@ export const checkBookmarkApplied = (obj) => {
 //       return err.response.data;
 //     });
 // };
-
-
-
-
 
 export const confirmInterview = (obj) => {
   return axios
@@ -735,8 +720,6 @@ export const interview = (obj) => {
       return err.response;
     });
 };
-
-
 
 export const reject = (obj) => {
   return axios
