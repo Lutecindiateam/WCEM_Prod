@@ -48,6 +48,7 @@ const {
   editForAdminStatus,
   editVerifyAdmin,
   editSuperAdmin,
+  editAdminVerify,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
 const { uploadDocument, getDocument } = require("../controller/partner/document");
@@ -130,7 +131,7 @@ router.patch("/admin/addincentive/:id",upload.none(), addIntensive);
 router.patch("/admin/editEditorStatus/:id", editEditorStatus);
 router.patch("/admin/forAdminEdit/:id", editForAdminStatus);
 router.patch("/admin/editVerifyAdmin/:id", editVerifyAdmin);
-router.patch("/admin/editSecondLast/:id", editSuperAdmin);
+router.patch("/admin/editSecondLast/:id", editAdminVerify);
 router.patch("/admin/editSuperAdmin/:id", editSuperAdmin);
 router.get("/upload/getSource/:id", getaAgentSource);
 router.post("/agent/login" , authenticate_agent)

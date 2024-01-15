@@ -23,6 +23,7 @@ import { DocumentUploader } from "./Partner/documentUpload";
 import CreateRole from "./Partner/Admin/CreateRole";
 import  DocView  from "./Partner/documentView";
 import AgentSignin from "./Partner/AgentSignin";
+import Rejections from "./Partner/Rejections";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
   {
     path:"/login",
     element: <AgentSignin />
+  },
+  {
+    path: "/rejection",
+    element: <Rejections />
   },
   // {
   //   path:"/pie",

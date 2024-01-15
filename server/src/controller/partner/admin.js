@@ -84,7 +84,8 @@ exports.getShopsData = async (req, res) => {
 
 exports.getSpecShopData = async (req, res) => {
   try {
-    const response = await upload.find({ p_id: req.params.id });
+    // const response = await upload.find({ p_id: req.params.id });
+    const response = await upload.find();
     if (response.length > 0) {
       return res.status(200).json({
         data: { response },
@@ -204,7 +205,7 @@ exports.editVerifyAdmin = async(req, res) =>{
 }
 
 //dahikar sir 
-exports.editSuperAdmin = async(req, res) =>{
+exports.editAdminVerify = async(req, res) =>{
   try{
     const response = await upload.findOneAndUpdate(
       { _id: req.params.id },

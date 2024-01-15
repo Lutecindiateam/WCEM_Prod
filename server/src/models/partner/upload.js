@@ -181,6 +181,12 @@ const applySchema = new mongoose.Schema(
     },
     source_id: {
       type: String
+    },
+    rejection:{
+      type : String
+    },
+    rej_name:{
+      type: String
     }
   },
 

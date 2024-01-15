@@ -146,14 +146,14 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             <ListItemText primary="All Students" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
-        {/* <ListItem key="docView" disablePadding>
-          <ListItemButton to="/doc">
+        <ListItem key="rejection" disablePadding>
+          <ListItemButton to="/rejection">
             <ListItemIcon>
               <PreviewIcon style={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="View Documents" style={{ color: "white" }} />
+            <ListItemText primary="Rejected Application" style={{ color: "white" }} />
           </ListItemButton>
-        </ListItem> */}
+        </ListItem>
         {user.role === "admin" ? (
           <>
             <ListItem key="users" disablePadding>

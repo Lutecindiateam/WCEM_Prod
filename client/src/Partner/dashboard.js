@@ -12,7 +12,7 @@ import {
   requestAdminMonthJob,
   requestGetCandidate,
   requestGetApplyJob,
-  requestCandidateForJob
+  requestCandidateForJob,
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Pie from "./pie";
@@ -21,12 +21,10 @@ import DemoBar from "./calender";
 import Graph from "./bar";
 import { Navigate } from "react-router-dom";
 
-
 const Dashboard = ({ information, ...props }) => {
   const [user, setUser] = useState({});
   const [list, setList] = useState([]);
 
- 
   // console.log(user);
   // useEffect(() => {
   //   let loginData = props.candidate.loginData;
@@ -80,13 +78,12 @@ const Dashboard = ({ information, ...props }) => {
           token: loginData.data.data.token,
         });
         props.requestCandidateForJob({
-          id: loginData.data.data.id
-        })
+          id: loginData.data.data.id,
+        });
       }
     }
   }, [props.candidate.loginData, props.candidate.applyJobData]);
 
-  console.log(user);
   useEffect(() => {
     // console.log("hello");
     let empLoginData = props.employee.empLoginData;
@@ -99,12 +96,11 @@ const Dashboard = ({ information, ...props }) => {
           token: empLoginData.data.data.token,
         });
         props.requestCandidateForJob({
-          id: empLoginData.data.data.id
-        })
+          id: empLoginData.data.data.id,
+        });
       }
     }
   }, [props.employee.empLoginData]);
-  
 
   useEffect(() => {
     let getCandidateData = props.candidate.getCandidateData;
@@ -132,7 +128,11 @@ const Dashboard = ({ information, ...props }) => {
     let loginData = props.data.loginData;
     if (loginData !== undefined) {
       if (loginData?.data?.status == "success") {
-        if (loginData?.data?.data.role === "admin" || loginData?.data?.data.role === "editor") {
+        if (
+          loginData?.data?.data.role === "admin" ||
+          loginData?.data?.data.role === "editor" ||
+          loginData?.data?.data.role === "superadmin"
+        ) {
           setUser(loginData.data.data);
           props.requestAdminMonthJob({
             token: loginData.data.data.token,
@@ -152,7 +152,6 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.monthWiseJobData]);
 
-  
   return (
     <Layout>
       <Fragment>
@@ -324,7 +323,7 @@ const mapDispatchToProps = (dispatch) =>
       requestAdminMonthJob,
       requestGetCandidate,
       requestGetApplyJob,
-      requestCandidateForJob
+      requestCandidateForJob,
     },
     dispatch
   );

@@ -17,7 +17,7 @@ import {
   requestAdminEditIndustry,
   requestAdminEditCategory,
   requestAdminEditTag,
-  requestGetInterview
+  requestGetInterview,
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
@@ -389,6 +389,7 @@ const TableData = (props) => {
       }
     }
   }, [props.data.editDegreeData]);
+
   useEffect(() => {
     let editIndustryData = props.data.editIndustryData;
     if (editIndustryData !== undefined) {
@@ -398,6 +399,7 @@ const TableData = (props) => {
       }
     }
   }, [props.data.editIndustryData]);
+
   useEffect(() => {
     let editCategoryData = props.data.editCategoryData;
     if (editCategoryData !== undefined) {
@@ -407,7 +409,7 @@ const TableData = (props) => {
       }
     }
   }, [props.data.editCategoryData]);
-  
+
   useEffect(() => {
     let editTagData = props.data.editTagData;
     if (editTagData !== undefined) {
@@ -417,6 +419,17 @@ const TableData = (props) => {
       }
     }
   }, [props.data.editTagData]);
+
+  useEffect(() => {
+    let editFunctionalData = props.data.editFunctionalData;
+    if (editFunctionalData !== undefined) {
+      if (editFunctionalData?.data?.status == "success") {
+        Swal.fire("Good job!", "Approved Successfully.", "success");
+        props.data.editFunctionalData = undefined;
+      }
+    }
+  }, [props.data.editFunctionalData]);
+
   const onSubmit = (values) => {
     // Handle form submission here
     let form = new FormData();
@@ -483,8 +496,9 @@ const TableData = (props) => {
     props.data.editIndustryData,
     props.data.editCategoryData,
     props.data.editTagData,
+    props.data.editFunctionalData,
   ]);
-  
+
   useEffect(() => {
     let getInterviewData = props.employee.getInterviewData;
     // console.log(getCandidateData);
@@ -536,40 +550,300 @@ const TableData = (props) => {
     }
   }, [props.candidate.loginData]);
   // console.log(user);
-  const columns = [
-    { field: "id", headerName: "Sr.No.", width: 100 },
-    { field: "candidateName", headerName: "Candidate Name", flex: 1 },
-    { field: "source", headerName: "Source", flex: 1 },
-    // { field: "documents", headerName: "Documets", flex: 1 },
-    { field: "branch", headerName: "Branch", flex: 1 },
-    {
-      field: "documentView",
-      headerName: "Document View",
-      flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
-          style={{ textDecoration: "none" }}
-        >
-          {/* You can use any icon component for document view */}
-          <span role="img" aria-label="View Documents">
-            📄 View
-          </span>
-        </Link>
-      ),
-    },
-    {
-      field: "more",
-      headerName: "Details",
-      flex: 1,
-      renderCell: (params) => (
-        <Button onClick={() => handleOpen(params.row.document.id)}>
-          More Details..
-        </Button>
-      ),
-    },
-    user.role === "editor" &&
-      user.value === true && {
+  // const columns = [
+  //   { field: "id", headerName: "Sr.No.", width: 100 },
+  //   { field: "candidateName", headerName: "Candidate Name", flex: 1 },
+  //   { field: "source", headerName: "Source", flex: 1 },
+  //   // { field: "documents", headerName: "Documets", flex: 1 },
+  //   { field: "branch", headerName: "Branch", flex: 1 },
+  //   {
+  //     field: "documentView",
+  //     headerName: "Document View",
+  //     flex: 1,
+  //     renderCell: (params) => (
+  //       <Link
+  //         to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
+  //         style={{ textDecoration: "none" }}
+  //       >
+  //         {/* You can use any icon component for document view */}
+  //         <span role="img" aria-label="View Documents">
+  //           📄 View
+  //         </span>
+  //       </Link>
+  //     ),
+  //   },
+  //   {
+  //     field: "more",
+  //     headerName: "Details",
+  //     flex: 1,
+  //     renderCell: (params) => (
+  //       <Button onClick={() => handleOpen(params.row.document.id)}>
+  //         More Details..
+  //       </Button>
+  //     ),
+  //   },
+  //   user.role === "editor" &&
+  //     user.value === true && {
+  //       field: "approval",
+  //       headerName: "Approval",
+  //       flex: 1,
+  //       renderCell: (params) =>
+  //         params.row.approval.status === "false" ? (
+  //           <Button
+  //             variant="contained"
+  //             onClick={() => handleApproval(params.row.approval.id)}
+  //           >
+  //             Approve
+  //           </Button>
+  //         ) : (
+  //           <Button
+  //             variant="contained"
+  //             color="primary" // or "success" depending on your theme
+  //             disabled={true}
+  //           >
+  //             Approved
+  //           </Button>
+  //         ),
+  //     },
+  // user.role === "editor" &&
+  //   user.value === false && {
+  //     field: "approve",
+  //     headerName: "Approval",
+  //     flex: 1,
+  //     renderCell: (params) =>
+  //       params.row.approval.status === "false" ? (
+  //         <Button
+  //           variant="contained"
+  //           color="info" // or "success" depending on your theme
+  //           disabled={true}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "editor" ? (
+  //         <Button
+  //           variant="contained"
+  //           onClick={() => handleEditorApproval(params.row.approval.id)}
+  //         >
+  //           Approve
+  //         </Button>
+  //       ) : (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleApproval(params.row.approval.id)}
+  //         >
+  //           Approved
+  //         </Button>
+  //       ),
+  //   },
+  // user.role === "admin" &&
+  //   user.value === true && {
+  //     field: "adminapproval",
+  //     headerName: "Approval",
+  //     flex: 1,
+  //     renderCell: (params) =>
+  //       params.row.approval.status === "false" ? (
+  //         <Button
+  //           variant="contained"
+  //           color="info" // or "success" depending on your theme
+  //           disabled={true}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "editor" ? (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleApproval(params.row.approval.id)}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "admin" ? (
+  //         <Button
+  //           variant="contained"
+  //           onClick={() => handleEditVerify(params.row.adminapproval.id)}
+  //         >
+  //           Approve
+  //         </Button>
+  //       ) : (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+  //         >
+  //           Approved
+  //         </Button>
+  //       ),
+  //   },
+  //   user.role === "admin" &&
+  //     user.value === false && {
+  //       field: "adminverify",
+  //       headerName: "Approval",
+  //       flex: 1,
+  //       renderCell: (params) =>
+  //         params.row.approval.status === "false" ? (
+  //           <Button
+  //             variant="contained"
+  //             color="info" // or "success" depending on your theme
+  //             disabled={true}
+  //           >
+  //             Waiting
+  //           </Button>
+  //         ) : params.row.approval.status === "editor" ? (
+  //           <Button
+  //             variant="contained"
+  //             disabled={true}
+  //             // onClick={() => handleApproval(params.row.approval.id)}
+  //           >
+  //             Waiting
+  //           </Button>
+  //         ) : params.row.approval.status === "admin" ? (
+  //           <Button
+  //             variant="contained"
+  //             disabled={true}
+  //             // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+  //           >
+  //             Waiting
+  //           </Button>
+  //         ) : params.row.approval.status === "verify" ? (
+  //           <Button
+  //             variant="contained"
+  //             onClick={() => handleFinalEdit(params.row.adminverify.id)}
+  //           >
+  //             Approve
+  //           </Button>
+  //         ) : (
+  //           <Button variant="contained" disabled={true}>
+  //             Approved
+  //           </Button>
+  //         ),
+  //     },
+
+  // user.role === "superadmin" &&
+  //   user.value === true && {
+  //     field: "superadmin",
+  //     headerName: "Approval",
+  //     flex: 1,
+  //     renderCell: (params) =>
+  //       params.row.approval.status === "false" ? (
+  //         <Button
+  //           variant="contained"
+  //           color="info" // or "success" depending on your theme
+  //           disabled={true}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "editor" ? (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleApproval(params.row.approval.id)}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "admin" ? (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "verify" ? (
+  //         <Button
+  //           variant="contained"
+  //           disabled={true}
+  //           // onClick={() => handleFinalEdit(params.row.adminverify.id)}
+  //         >
+  //           Waiting
+  //         </Button>
+  //       ) : params.row.approval.status === "super" ? (
+  //         <Button
+  //           variant="contained"
+  //           onClick={() => handleSuperAdminEdit(params.row.superadmin.id)}
+  //         >
+  //           Approve
+  //         </Button>
+  //       ) : (
+  //         <Button variant="contained" disabled={true}>
+  //           Approved
+  //         </Button>
+  //       ),
+  //   },
+  // ];
+
+  // const rows = list.map((item, index) => ({
+  //   id: index + 1,
+  //   candidateName: item.candidateName,
+  //   source: item.source,
+  //   branch: item.branch,
+  //   document: {
+  //     id: item._id, // Replace with the actual field in your response
+  //     branch: item.branch, // Replace with the actual field in your response
+  //   },
+  //   more: {
+  //     id: item._id,
+  //   },
+  //   approval: {
+  //     id: item._id,
+  //     status: item.status,
+  //   },
+
+  //   approve: {
+  //     id: item._id,
+  //     status: item.status,
+  //   },
+  //   adminapproval: {
+  //     id: item._id,
+  //     status: item.status,
+  //   },
+  //   adminverify: {
+  //     id: item._id,
+  //     status: item.status,
+  //   },
+  //   superadmin: {
+  //     id: item._id,
+  //     status: item.status,
+  //   },
+  // }));
+
+  const generateColumns = (user) => {
+    const commonColumns = [
+      { field: "id", headerName: "Sr.No.", width: 100 },
+      { field: "candidateName", headerName: "Candidate Name", flex: 1 },
+      { field: "source", headerName: "Source", flex: 1 },
+      { field: "branch", headerName: "Branch", flex: 1 },
+      {
+        field: "documentView",
+        headerName: "Document View",
+        flex: 1,
+        renderCell: (params) => (
+          <Link
+            to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <span role="img" aria-label="View Documents">
+              📄 View
+            </span>
+          </Link>
+        ),
+      },
+      {
+        field: "more",
+        headerName: "Details",
+        flex: 1,
+        renderCell: (params) => (
+          <Button onClick={() => handleOpen(params.row.document.id)}>
+            More Details..
+          </Button>
+        ),
+      },
+    ];
+
+    const roleSpecificColumns = [];
+
+    if (user.role === "editor" && user.value === true) {
+      roleSpecificColumns.push({
         field: "approval",
         headerName: "Approval",
         flex: 1,
@@ -582,17 +856,13 @@ const TableData = (props) => {
               Approve
             </Button>
           ) : (
-            <Button
-              variant="contained"
-              color="primary" // or "success" depending on your theme
-              disabled={true}
-            >
+            <Button variant="contained" color="primary" disabled={true}>
               Approved
             </Button>
           ),
-      },
-    user.role === "editor" &&
-      user.value === false && {
+      });
+    } else if (user.role === "editor" && user.value === false) {
+      roleSpecificColumns.push({
         field: "approve",
         headerName: "Approval",
         flex: 1,
@@ -621,9 +891,9 @@ const TableData = (props) => {
               Approved
             </Button>
           ),
-      },
-    user.role === "admin" &&
-      user.value === true && {
+      });
+    } else if (user.role === "admin" && user.value === true) {
+      roleSpecificColumns.push({
         field: "adminapproval",
         headerName: "Approval",
         flex: 1,
@@ -660,9 +930,9 @@ const TableData = (props) => {
               Approved
             </Button>
           ),
-      },
-    user.role === "admin" &&
-      user.value === false && {
+      });
+    } else if (user.role === "admin" && user.value === false) {
+      roleSpecificColumns.push({
         field: "adminverify",
         headerName: "Approval",
         flex: 1,
@@ -703,10 +973,9 @@ const TableData = (props) => {
               Approved
             </Button>
           ),
-      },
-
-    user.role === "superadmin" &&
-      user.value === true && {
+      });
+    } else if (user.role === "superadmin" && user.value === true) {
+      roleSpecificColumns.push({
         field: "superadmin",
         headerName: "Approval",
         flex: 1,
@@ -720,27 +989,15 @@ const TableData = (props) => {
               Waiting
             </Button>
           ) : params.row.approval.status === "editor" ? (
-            <Button
-              variant="contained"
-              disabled={true}
-              // onClick={() => handleApproval(params.row.approval.id)}
-            >
+            <Button variant="contained" disabled={true}>
               Waiting
             </Button>
           ) : params.row.approval.status === "admin" ? (
-            <Button
-              variant="contained"
-              disabled={true}
-              // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
-            >
+            <Button variant="contained" disabled={true}>
               Waiting
             </Button>
           ) : params.row.approval.status === "verify" ? (
-            <Button
-              variant="contained"
-              disabled={true}
-              // onClick={() => handleFinalEdit(params.row.adminverify.id)}
-            >
+            <Button variant="contained" disabled={true}>
               Waiting
             </Button>
           ) : params.row.approval.status === "super" ? (
@@ -755,42 +1012,63 @@ const TableData = (props) => {
               Approved
             </Button>
           ),
-      },
-  ];
+      });
+    }
 
-  const rows = list.map((item, index) => ({
-    id: index + 1,
-    candidateName: item.candidateName,
-    source: item.source,
-    branch: item.branch,
-    document: {
-      id: item._id, // Replace with the actual field in your response
-      branch: item.branch, // Replace with the actual field in your response
-    },
-    more: {
-      id: item._id,
-    },
-    approval: {
-      id: item._id,
-      status: item.status,
-    },
-    approve: {
-      id: item._id,
-      status: item.status,
-    },
-    adminapproval: {
-      id: item._id,
-      status: item.status,
-    },
-    adminverify: {
-      id: item._id,
-      status: item.status,
-    },
-    superadmin: {
-      id: item._id,
-      status: item.status,
-    },
-  }));
+    // Repeat the above logic for other roles...
+
+    return [...commonColumns, ...roleSpecificColumns];
+  };
+
+  const columns = generateColumns(user);
+
+  const rows = list.map((item, index) => {
+    const total = {
+      id: index + 1,
+      candidateName: item.candidateName,
+      source: item.source,
+      branch: item.branch,
+      document: {
+        id: item._id,
+        branch: item.branch,
+      },
+      more: {
+        id: item._id,
+      },
+      approval: {
+        id: item._id,
+        status: item.status,
+      },
+    };
+
+    const limited =
+      user.role !== "agent"
+        ? {
+            approve: {
+              id: item._id,
+              status: item.status,
+            },
+            adminapproval: {
+              id: item._id,
+              status: item.status,
+            },
+            adminverify: {
+              id: item._id,
+              status: item.status,
+            },
+            superadmin: {
+              id: item._id,
+              status: item.status,
+            },
+            rejection: {
+              id: item._id,
+              rejection: item.rejection,
+            },
+          }
+        : {};
+
+    return { ...total, ...limited };
+  });
 
   return (
     <Layout>
@@ -840,7 +1118,7 @@ const mapDispatchToProps = (dispatch) =>
       requestAdminEditIndustry,
       requestAdminEditCategory,
       requestAdminEditTag,
-      requestGetInterview
+      requestGetInterview,
     },
     dispatch
   );
