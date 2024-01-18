@@ -2,7 +2,6 @@ const fs = require("fs");
 const upload = require("../../models/partner/upload");
 const csv = require("csv-parser");
 const agent = require("../../models/partner/agent");
-
 exports.uploadProductsFromCSV = (req, res) => {
   // console.log(req.params);
   try {
@@ -107,7 +106,7 @@ exports.uploadShopData = async (req, res) => {
       // stu_rec_fees,
       p_id,
     } = req.body;
-    const university  = req.body.university || req.body.otherUniversity;
+    const university = req.body.university || req.body.otherUniversity;
     // let documents = [];
     // console.log(req.body);
 
@@ -116,10 +115,19 @@ exports.uploadShopData = async (req, res) => {
     //     return { img: file.filename };
     //   });
     // }
+    const existingApplication = await upload
+      .findOne({ mobile: req.body.mobile })
+      .exec();
+    if (existingApplication) {
+      return res.status(400).json({ message: "Same Application Already Exist" });
+    }
+
+    const parentMobileValue = parent_mobile !== undefined ? Number(parent_mobile) : "Not Present";
+
     const student = new upload({
       candidateName,
       mobile,
-      parent_mobile,
+      parentMobileValue,
       gender,
       course,
       branch,
@@ -159,9 +167,9 @@ exports.uploadShopData = async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
-};
+};  
 
 exports.getEditorAdmission = async (req, res) => {
   try {
@@ -179,8 +187,8 @@ exports.getEditorAdmission = async (req, res) => {
   }
 };
 
-exports.getaAgentSource = async (req , res) =>  {
-  try{
+exports.getaAgentSource = async (req, res) => {
+  try {
     const response = await agent.find();
     if (response) {
       return res.status(200).json({
@@ -188,10 +196,10 @@ exports.getaAgentSource = async (req , res) =>  {
         status: "success",
       });
     }
-// console.log(req.params);
-  }catch(err){
+    // console.log(req.params);
+  } catch (err) {
     return res.status(500).json({
       message: "Something Wrong",
     });
   }
-}
+};

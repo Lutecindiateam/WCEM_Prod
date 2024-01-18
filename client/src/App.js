@@ -21,9 +21,10 @@ import Logout from "./Partner/Logout";
 import Pie from "./Partner/pie";
 import { DocumentUploader } from "./Partner/documentUpload";
 import CreateRole from "./Partner/Admin/CreateRole";
-import  DocView  from "./Partner/documentView";
+import DocView from "./Partner/documentView";
 import AgentSignin from "./Partner/AgentSignin";
 import Rejections from "./Partner/Rejections";
+import Successful from "./Partner/Successful";
 
 const router = createBrowserRouter([
   {
@@ -107,12 +108,16 @@ const router = createBrowserRouter([
     element: <DocView />,
   },
   {
-    path:"/login",
-    element: <AgentSignin />
+    path: "/login",
+    element: <AgentSignin />,
   },
   {
     path: "/rejection",
-    element: <Rejections />
+    element: <Rejections />,
+  },
+  {
+    path: "/succadm",
+    element: <Successful />,
   },
   // {
   //   path:"/pie",

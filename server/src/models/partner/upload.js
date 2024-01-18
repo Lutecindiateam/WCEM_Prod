@@ -7,24 +7,17 @@ const applySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
     mobile: {
       type: String,
 
       required: true,
       trim: true,
     },
-    mobile: {
-      type: Number,
+    parentMobileValue: {
+      type: String
 
-      required: true,
-      trim: true,
-    },
-    parent_mobile: {
-      type: Number,
-
-      required: true,
-      trim: true,
+      // required: true,
+      // trim: true,
     },
     gender: {
       type: String,
@@ -45,13 +38,13 @@ const applySchema = new mongoose.Schema(
       trim: true,
     },
     date_docSubmision: {
-      type: Date,
+      type: String,
 
       required: true,
       trim: true,
     },
     lastExam_passingYear: {
-      type: Date,
+      type: String,
 
       required: true,
       trim: true,
@@ -183,9 +176,14 @@ const applySchema = new mongoose.Schema(
       type: String
     },
     rejection:{
-      type : String
+      type : String,
+      default: null
     },
     rej_name:{
+      type: String,
+      default: null
+    },
+    rej_remark:{
       type: String
     }
   },

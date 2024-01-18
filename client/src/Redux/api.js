@@ -208,6 +208,34 @@ export const getIterview = (obj) => {
     });
 };
 
+export const candidateprofile = (obj) => {
+  return axios
+    .patch("/edit/reSubmission/" + obj.id, obj, {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
+    .then((response) => {
+      // console.log(response);
+      return response;
+    })
+    .catch((err) => {
+      return err.response;
+    });
+};
+
+export const getJobs = (obj) => {
+  console.log(obj);
+  return axios
+    .get("/clerk/rejApplication")
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
+
+
 //*********END********/
 
 export const googlelogin = (obj) => {
@@ -222,6 +250,20 @@ export const googlelogin = (obj) => {
     });
 };
 
+export const empJoblist = (obj) => {
+  // console.log(obj.id, "obj ::",obj);
+  return axios
+    .get("/clerk/rejApplication", {
+      headers: { Authorization: `Bearer ${obj.token}` },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((err) => {
+      console.log("Error", err.response.data.message);
+      return err.response;
+    });
+};
 // export const deleteAccount = (obj) => {
 //   return axios
 //     .post("/candidate/removecandidates/" + obj.id, obj.data, {
@@ -313,20 +355,7 @@ export const emplogo = (obj) => {
     });
 };
 
-export const getJobs = (obj) => {
-  // console.log(obj);
-  return axios
-    .get("/job?page=" + obj.page + "&page_size=" + obj.page_size, {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
+
 
 export const getFormFields = (obj) => {
   // console.log(obj);
@@ -433,20 +462,6 @@ export const getJobsCategoryWise = (obj) => {
 //     });
 // };
 
-export const empJoblist = (obj) => {
-  // console.log(obj.id, "obj ::",obj);
-  return axios
-    .get("/employer/" + obj.id + "/jobs", {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((err) => {
-      console.log("Error", err.response.data.message);
-      return err.response;
-    });
-};
 
 export const empdeleteJob = (obj) => {
   return axios
@@ -490,20 +505,7 @@ export const candidatelogo = (obj) => {
     });
 };
 
-export const candidateprofile = (obj) => {
-  // console.log(obj);
-  return axios
-    .patch("/candidate/" + obj.id, obj.data, {
-      headers: { Authorization: `Bearer ${obj.token}` },
-    })
-    .then((response) => {
-      // console.log(response);
-      return response;
-    })
-    .catch((err) => {
-      return err.response;
-    });
-};
+
 
 export const candidateresume = (obj) => {
   return axios

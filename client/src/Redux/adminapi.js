@@ -149,7 +149,91 @@ export const adminlogin = (obj) => {
         return err.response;
       });
   };
+
+  export const editShift = (obj) => {
+    return axios
+      .patch("/admin/editEditor1Rejection/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
   
+  export const categoryJob = (obj) => {
+    // console.log(obj);
+    return axios
+      .get("/admin/reject")
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editOwner = (obj) => {
+    return axios
+      .patch("/admin/editEditorRejection/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editType = (obj) => {
+    return axios
+      .patch("/admin/editAdminRejection/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editCurrency = (obj) => {
+    return axios
+      .patch("/admin/editAdminVerifyRejection/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editSkill = (obj) => {
+    return axios
+      .patch("/admin/editSuperRejection/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
+
+  export const editPeriod = (obj) => {
+    return axios
+      .patch("/admin/editResubmission/" + obj.id, obj)
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        console.log("Error", err.response.data.message);
+        return err.response;
+      });
+  };
   //*************END*********//
 
 
@@ -180,17 +264,7 @@ export const adminlogin = (obj) => {
   
   
   
-  export const categoryJob = (obj) => {
-    return axios
-      .get("/admin/categoryWiseJob")
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+ 
   export const companyJob = (obj) => {
     return axios
       .get("/admin/companywisetopjob")
@@ -804,17 +878,7 @@ export const adminlogin = (obj) => {
   
 
   //edit candidate block field
-  export const editShift = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularCandidate/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deleteShift = (obj) => {
     return axios
@@ -869,17 +933,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editOwner = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularownership_types/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+ 
   
   export const deleteOwner = (obj) => {
     return axios
@@ -931,17 +985,7 @@ export const adminlogin = (obj) => {
   };
   
   //edit job block status 
-  export const editType = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularjob_types/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deleteType = (obj) => {
     return axios
@@ -996,17 +1040,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editCurrency = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularsalary_currencies/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+ 
   
   export const deleteCurrency = (obj) => {
     return axios
@@ -1061,17 +1095,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editPeriod = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularsalary_periods/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deletePeriod = (obj) => {
     return axios
@@ -1121,17 +1145,7 @@ export const adminlogin = (obj) => {
       });
   };
   
-  export const editSkill = (obj) => {
-    return axios
-      .patch("/admin/editPartiCularskills/" + obj.id, obj.data)
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        console.log("Error", err.response.data.message);
-        return err.response;
-      });
-  };
+  
   
   export const deleteSkill = (obj) => {
     return axios

@@ -50,7 +50,7 @@ exports.partnerAdminLogin = async (req, res) => {
             { expiresIn: 31556926 },
             (err, token) => {
               return res.status(200).json({
-                data: { id: user.id, token: token, role: user.role ,value: user.value},
+                data: { id: user.id, token: token, role: user.role ,value: user.value,name:user.name },
                 message: "Sign In success",
                 status: "success",
               });
@@ -70,7 +70,7 @@ exports.partnerAdminLogin = async (req, res) => {
 exports.getShopsData = async (req, res) => {
   // console.log(req);
   try {
-    const response = await upload.find(); 
+    const response = await upload.find({rejection:null}); 
     if (response.length > 0) {
       return res.status(200).json({
         data: { response },
@@ -85,7 +85,7 @@ exports.getShopsData = async (req, res) => {
 exports.getSpecShopData = async (req, res) => {
   try {
     // const response = await upload.find({ p_id: req.params.id });
-    const response = await upload.find();
+    const response = await upload.find({rejection:null});
     if (response.length > 0) {
       return res.status(200).json({
         data: { response },
@@ -256,4 +256,3 @@ exports.editSuperAdmin = async(req, res) =>{
     });
    }
 }
-

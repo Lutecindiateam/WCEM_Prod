@@ -72,7 +72,7 @@ const DocView = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [branch, setBranch] = useState();
   // const handleSubmit = () => {};
-  console.log(document);
+
   useEffect(() => {
     let loginData = props.candidate.loginData;
     if (loginData !== undefined) {
@@ -81,6 +81,21 @@ const DocView = (props) => {
       }
     }
   }, [props.candidate.loginData]);
+
+  useEffect(() => {
+    let loginData = props.data.loginData;
+    if (loginData !== undefined) {
+      if (loginData?.data?.status == "success") {
+        if (
+          loginData?.data?.data.role === "admin" ||
+          loginData.data.data.role === "editor" ||
+          loginData.data.data.role === "superadmin"
+        ) {
+          setUser(loginData.data.data);
+        }
+      }
+    }
+  }, [props.data.loginData]);
 
   const handleSubmit = async (values) => {
     // console.log(values);
@@ -145,9 +160,6 @@ const DocView = (props) => {
         token: user.token,
         data: {
           formData,
-          // : formData,
-          // id:params.id,
-          // branch: params.branch
         },
       });
       setAdharFile(null);
@@ -178,10 +190,14 @@ const DocView = (props) => {
 
   const handleDocument = (e, setFile) => {
     const placeholder = e.target.getAttribute("placeholder"); // Get the placeholder value
-    setFile({
-      file: e.target.files[0],
-      name: placeholder,
-    });
+    {
+      if (user.role === "editor" || user.role === "clerk") {
+        setFile({
+          file: e.target.files[0],
+          name: placeholder,
+        });
+      }
+    }
   };
 
   const onClickLoading = () => {
@@ -190,14 +206,11 @@ const DocView = (props) => {
 
   useEffect(() => {
     let empProfileData = props.employee.empProfileData;
-    // console.log(empProfileData);
     if (empProfileData !== undefined) {
       if (empProfileData?.data?.status == "success") {
         Swal.fire("Good job!", "Document Uploaded successfully.", "success");
         setLoader(false);
         form.resetFields();
-        // navigate(`/doc/${applyJobData.data.data.branch}/${applyJobData.data.data._id}`);
-
         props.employee.empProfileData = undefined;
       } else {
         Swal.fire("Alert!", "Something Went Wrong.", "error");
@@ -280,6 +293,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="adhar"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setAdharFile)}
                 />
                 <Button
@@ -289,7 +303,6 @@ const DocView = (props) => {
                   onClick={handleSubmit}
                   disabled={!adharFile}
                   style={{
-                    // backgroundColor: "#2c3e50",
                     marginLeft: "20px",
                   }}
                 >
@@ -309,13 +322,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.adhar}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -334,6 +340,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="photo"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setPhotoFile)}
                 />
                 <Button
@@ -343,7 +350,6 @@ const DocView = (props) => {
                   onClick={handleSubmit}
                   disabled={!photoFile}
                   style={{
-                    // backgroundColor: "#2c3e50",
                     marginLeft: "20px",
                   }}
                 >
@@ -363,14 +369,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* `${process.env.REACT_APP_API_HOST}/public/${branch}/${document.adhar}` */}
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.photo}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -389,6 +387,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="sign"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setSignFile)}
                 />
                 <Button
@@ -418,11 +417,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(`${branch}/${document.sign}`)}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -437,6 +431,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="tc"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setTcFile)}
                 />
                 <Button
@@ -446,7 +441,6 @@ const DocView = (props) => {
                   onClick={handleSubmit}
                   disabled={!tcFile}
                   style={{
-                    // backgroundColor: "#2c3e50",
                     marginLeft: "20px",
                   }}
                 >
@@ -466,11 +460,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(`${branch}/${document.tc}`)}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -489,6 +478,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="tenth"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setTenthFile)}
                 />
                 <Button
@@ -518,13 +508,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.tenth}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -543,6 +526,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="twelfth"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setTwelfthFile)}
                 />
                 <Button
@@ -572,13 +556,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.twelfth}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -597,6 +574,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="caste"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setCasteFile)}
                 />
                 <Button
@@ -626,13 +604,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.caste}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -651,6 +622,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="ncl"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setNclFile)}
                 />
                 <Button
@@ -680,11 +652,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(`${branch}/${document.ncl}`)}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -703,6 +670,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="domicile"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setDomicileFile)}
                 />
                 <Button
@@ -732,13 +700,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.domicile}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -753,6 +714,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="csv"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setCsvFile)}
                 />
                 <Button
@@ -782,11 +744,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(`${branch}/${document.csv}`)}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -805,6 +762,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="cet"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setCetFile)}
                 />
                 <Button
@@ -834,11 +792,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(`${branch}/${document.cet}`)}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone
@@ -857,6 +810,7 @@ const DocView = (props) => {
                 <Input
                   type="file"
                   placeholder="other"
+                  accept=".jpg, .jpeg, .png"
                   onChange={(e) => handleDocument(e, setOtherFile)}
                 />
                 <Button
@@ -886,13 +840,6 @@ const DocView = (props) => {
                         )
                       }
                     />
-                    {/* <ImageViewModal
-                      visible={isModalVisible}
-                      imageSrc={generatePublicUrl(
-                        `${branch}/${document.other}`
-                      )}
-                      onCancel={handleToggleModal}
-                    /> */}
                   </div>
                 ) : (
                   <CloseCircleTwoTone

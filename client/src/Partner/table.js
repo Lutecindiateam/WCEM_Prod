@@ -18,6 +18,11 @@ import {
   requestAdminEditCategory,
   requestAdminEditTag,
   requestGetInterview,
+  requestAdminEditShift,
+  requestAdminEditOwner,
+  requestAdminEditType,
+  requestAdminEditCurrency,
+  requestAdminEditSkill,
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Swal from "sweetalert2";
@@ -156,7 +161,7 @@ const DetailsModal = ({
             id="mobile"
             name="mobile"
             value={data.mobile}
-            placeholder={`Quantity`}
+            placeholder="Mobile"
             // onChange={onChangeData}
           />
         </div>
@@ -167,7 +172,7 @@ const DetailsModal = ({
             id="parent_mobile"
             name="parent_mobile"
             value={data.parent_mobile}
-            placeholder={`Quantity`}
+            placeholder="Not Present"
             // onChange={onChangeData}
           />
         </div>
@@ -218,7 +223,7 @@ const DetailsModal = ({
           />
         </div>
         <br />
-        {user.role === "editor" ? (
+        {user.role === "editor" || user.role === "admin" ? (
           <div>
             <Typography variant="h6" component="h2">
               Add Incentive
@@ -380,6 +385,180 @@ const TableData = (props) => {
       console.log("User canceled the action.");
     }
   };
+
+  // console.log(user);
+  const handleRejection = (id) => {
+    const remark = window.prompt("Enter a remark for rejection:");
+
+    // Check if the user clicked "OK" and provided a remark
+    if (remark !== null) {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to proceed with the rejection?"
+      );
+
+      if (userConfirmed) {
+        props.requestAdminEditShift({
+          id: id,
+          token: user.token,
+          name: user.name,
+          remark: remark, // Include the remark in the request
+        });
+      } else {
+        console.log("User canceled the action.");
+      }
+    } else {
+      console.log("User canceled or did not provide a remark.");
+    }
+  };
+
+  const handleEditorRejection = (id) => {
+    const remark = window.prompt("Enter a remark for rejection:");
+
+    // Check if the user clicked "OK" and provided a remark
+    if (remark !== null) {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to proceed with the rejection?"
+      );
+
+      if (userConfirmed) {
+        props.requestAdminEditOwner({
+          id: id,
+          token: user.token,
+          name: user.name,
+          remark: remark, // Include the remark in the request
+        });
+      } else {
+        console.log("User canceled the action.");
+      }
+    } else {
+      console.log("User canceled or did not provide a remark.");
+    }
+  };
+
+  const handleAdminRejection = (id) => {
+    const remark = window.prompt("Enter a remark for rejection:");
+
+    // Check if the user clicked "OK" and provided a remark
+    if (remark !== null) {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to proceed with the rejection?"
+      );
+
+      if (userConfirmed) {
+        props.requestAdminEditType({
+          id: id,
+          token: user.token,
+          name: user.name,
+          remark: remark, // Include the remark in the request
+        });
+      } else {
+        console.log("User canceled the action.");
+      }
+    } else {
+      console.log("User canceled or did not provide a remark.");
+    }
+  };
+
+  const handleAdminVerifyRejection = (id) => {
+    const remark = window.prompt("Enter a remark for rejection:");
+
+    // Check if the user clicked "OK" and provided a remark
+    if (remark !== null) {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to proceed with the rejection?"
+      );
+
+      if (userConfirmed) {
+        props.requestAdminEditCurrency({
+          id: id,
+          token: user.token,
+          name: user.name,
+          remark: remark, // Include the remark in the request
+        });
+      } else {
+        console.log("User canceled the action.");
+      }
+    } else {
+      console.log("User canceled or did not provide a remark.");
+    }
+  };
+
+  const handleSuperRejection = (id) => {
+    const remark = window.prompt("Enter a remark for rejection:");
+
+    // Check if the user clicked "OK" and provided a remark
+    if (remark !== null) {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to proceed with the rejection?"
+      );
+
+      if (userConfirmed) {
+        props.requestAdminEditSkill({
+          id: id,
+          token: user.token,
+          name: user.name,
+          remark: remark, // Include the remark in the request
+        });
+      } else {
+        console.log("User canceled the action.");
+      }
+    } else {
+      console.log("User canceled or did not provide a remark.");
+    }
+  };
+
+  //Edit Rejection data for super admin
+  useEffect(() => {
+    let editSkillData = props.data.editSkillData;
+    if (editSkillData !== undefined) {
+      if (editSkillData?.data?.status == "success") {
+        Swal.fire("Good job!", "Rejection Successfull.", "success");
+        props.data.editSkillData = undefined;
+      }
+    }
+  }, [props.data.editSkillData]);
+
+  //Edit Rejection data for second admin
+  useEffect(() => {
+    let editCurrencyData = props.data.editCurrencyData;
+    if (editCurrencyData !== undefined) {
+      if (editCurrencyData?.data?.status == "success") {
+        Swal.fire("Good job!", "Rejection Successfull.", "success");
+        props.data.editCurrencyData = undefined;
+      }
+    }
+  }, [props.data.editCurrencyData]);
+
+  //Edit Rejction data for first admin
+  useEffect(() => {
+    let editTypeData = props.data.editTypeData;
+    if (editTypeData !== undefined) {
+      if (editTypeData?.data?.status == "success") {
+        Swal.fire("Good job!", "Rejection Successfull.", "success");
+        props.data.editTypeData = undefined;
+      }
+    }
+  }, [props.data.editTypeData]);
+
+  useEffect(() => {
+    let editOwnerData = props.data.editOwnerData;
+    if (editOwnerData !== undefined) {
+      if (editOwnerData?.data?.status == "success") {
+        Swal.fire("Good job!", "Rejection Successfull.", "success");
+        props.data.editOwnerData = undefined;
+      }
+    }
+  }, [props.data.editOwnerData]);
+
+  useEffect(() => {
+    let editShiftData = props.data.editShiftData;
+    if (editShiftData !== undefined) {
+      if (editShiftData?.data?.status == "success") {
+        Swal.fire("Good job!", "Rejection Successfull.", "success");
+        props.data.editShiftData = undefined;
+      }
+    }
+  }, [props.data.editShiftData]);
   useEffect(() => {
     let editDegreeData = props.data.editDegreeData;
     if (editDegreeData !== undefined) {
@@ -464,6 +643,7 @@ const TableData = (props) => {
     let empLoginData = props.employee.empLoginData;
     if (empLoginData !== undefined) {
       if (empLoginData?.data?.status == "success") {
+        setUser(empLoginData.data.data);
         props.requestGetInterview({
           id: empLoginData.data.data.id,
           role: empLoginData.data.data.role,
@@ -497,6 +677,11 @@ const TableData = (props) => {
     props.data.editCategoryData,
     props.data.editTagData,
     props.data.editFunctionalData,
+    props.data.editShiftData,
+    props.data.editOwnerData,
+    props.data.editTypeData,
+    props.data.editCurrencyData,
+    props.data.editSkillData,
   ]);
 
   useEffect(() => {
@@ -813,21 +998,50 @@ const TableData = (props) => {
       { field: "candidateName", headerName: "Candidate Name", flex: 1 },
       { field: "source", headerName: "Source", flex: 1 },
       { field: "branch", headerName: "Branch", flex: 1 },
+      // {
+      //   field: "documentView",
+      //   headerName: "Document View",
+      //   flex: 1,
+      //   renderCell: (params) => (
+      //     <Link
+      //       to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
+      //       style={{ textDecoration: "none" }}
+      //     >
+      //       <span role="img" aria-label="View Documents">
+      //         📄 View
+      //       </span>
+      //     </Link>
+      //   ),
+      // },
       {
         field: "documentView",
         headerName: "Document View",
         flex: 1,
-        renderCell: (params) => (
-          <Link
+        renderCell: (params) => {
+          let uploadedCount = 0;
+      
+          // Assuming that the document object is available in params.row.document
+          const document = params.row.document.documents;
+      
+          for (let key in document) {
+            if (document[key] !== null) {
+              uploadedCount++;
+            }
+          }
+      
+          return (
+            <Link
             to={`/doc/${params.row.document.branch}/${params.row.document.id}`}
-            style={{ textDecoration: "none" }}
-          >
-            <span role="img" aria-label="View Documents">
-              📄 View
-            </span>
-          </Link>
-        ),
+              style={{ textDecoration: "none" }}
+            >
+              <span role="img" aria-label="View Documents">
+                📄 View ({uploadedCount}/ 12)
+              </span>
+            </Link>
+          );
+        },
       },
+      
       {
         field: "more",
         headerName: "Details",
@@ -856,9 +1070,32 @@ const TableData = (props) => {
               Approve
             </Button>
           ) : (
-            <Button variant="contained" color="primary" disabled={true}>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={true}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
               Approved
             </Button>
+          ),
+      });
+
+      roleSpecificColumns.push({
+        field: "rejection",
+        headerName: "Rejection",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "false" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleRejection(params.row.approval.id)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Reject
+            </Button>
+          ) : (
+            ""
           ),
       });
     } else if (user.role === "editor" && user.value === false) {
@@ -890,6 +1127,23 @@ const TableData = (props) => {
             >
               Approved
             </Button>
+          ),
+      });
+      roleSpecificColumns.push({
+        field: "secondRej",
+        headerName: "Rejection",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "editor" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleEditorRejection(params.row.approval.id)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Reject
+            </Button>
+          ) : (
+            ""
           ),
       });
     } else if (user.role === "admin" && user.value === true) {
@@ -926,9 +1180,27 @@ const TableData = (props) => {
               variant="contained"
               disabled={true}
               // onClick={() => handleEditorApproval(params.row.adminapproval.id)}
+              style={{ backgroundColor: "green", color: "white" }}
             >
               Approved
             </Button>
+          ),
+      });
+      roleSpecificColumns.push({
+        field: "adminRej",
+        headerName: "Rejection",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "admin" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleAdminRejection(params.row.approval.id)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Reject
+            </Button>
+          ) : (
+            ""
           ),
       });
     } else if (user.role === "admin" && user.value === false) {
@@ -969,9 +1241,30 @@ const TableData = (props) => {
               Approve
             </Button>
           ) : (
-            <Button variant="contained" disabled={true}>
+            <Button
+              variant="contained"
+              disabled={true}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
               Approved
             </Button>
+          ),
+      });
+      roleSpecificColumns.push({
+        field: "verifyRej",
+        headerName: "Rejection",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "verify" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleAdminVerifyRejection(params.row.approval.id)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Reject
+            </Button>
+          ) : (
+            ""
           ),
       });
     } else if (user.role === "superadmin" && user.value === true) {
@@ -1008,20 +1301,66 @@ const TableData = (props) => {
               Approve
             </Button>
           ) : (
-            <Button variant="contained" disabled={true}>
+            <Button
+              variant="contained"
+              disabled={true}
+              style={{ backgroundColor: "green", color: "white" }}
+            >
               Approved
             </Button>
           ),
       });
+      roleSpecificColumns.push({
+        field: "superRej",
+        headerName: "Rejection",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.approval.status === "super" ? (
+            <Button
+              variant="contained"
+              onClick={() => handleSuperRejection(params.row.approval.id)}
+              style={{ backgroundColor: "red", color: "white" }}
+            >
+              Reject
+            </Button>
+          ) : (
+            ""
+          ),
+      });
+    } else if (user.role === "agent") {
+      roleSpecificColumns.push({
+        field: "agent",
+        headerName: "Status",
+        flex: 1,
+        renderCell: (params) =>
+          params.row.agent.status === "true" ? (
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "green", color: "white" }}
+            >
+              Successful
+            </Button>
+          ) : params.row.agent.rejection !== null ? (
+            <Button
+            variant="contained"
+            style={{ backgroundColor: "red", color: "white" }}
+          >
+            Rejected
+          </Button>
+          ) :(
+            <Button variant="contained" disabled={true}>
+              Processing
+            </Button>
+          ) 
+          
+      });
     }
-
-    // Repeat the above logic for other roles...
 
     return [...commonColumns, ...roleSpecificColumns];
   };
 
   const columns = generateColumns(user);
-
+console.log(list);
   const rows = list.map((item, index) => {
     const total = {
       id: index + 1,
@@ -1031,6 +1370,7 @@ const TableData = (props) => {
       document: {
         id: item._id,
         branch: item.branch,
+        documents: item.documents
       },
       more: {
         id: item._id,
@@ -1064,8 +1404,31 @@ const TableData = (props) => {
               id: item._id,
               rejection: item.rejection,
             },
+            secondRej: {
+              id: item._id,
+              rejection: item.rejection,
+            },
+            adminRej: {
+              id: item._id,
+              rejection: item.rejection,
+            },
+            verifyRej: {
+              id: item._id,
+              rejection: item.rejection,
+            },
+            superRej: {
+              id: item._id,
+              rejection: item.rejection,
+            },
+            
           }
-        : {};
+        : {
+          agent: {
+            id: item._id,
+            status: item.status,
+            rejection: item.rejection,
+          }
+        };
 
     return { ...total, ...limited };
   });
@@ -1119,6 +1482,11 @@ const mapDispatchToProps = (dispatch) =>
       requestAdminEditCategory,
       requestAdminEditTag,
       requestGetInterview,
+      requestAdminEditShift,
+      requestAdminEditOwner,
+      requestAdminEditType,
+      requestAdminEditCurrency,
+      requestAdminEditSkill,
     },
     dispatch
   );

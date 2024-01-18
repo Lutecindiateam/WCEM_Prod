@@ -15,6 +15,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import HomeIcon from "@mui/icons-material/Home";
+import OfflinePinIcon from "@mui/icons-material/OfflinePin";
 import AddModeratorIcon from "@mui/icons-material/AddModerator";
 import PreviewIcon from "@mui/icons-material/Preview";
 import { Typography } from "antd";
@@ -44,6 +45,15 @@ import {
 
 const Sidebar = ({ handleDrawerToggle, ...props }) => {
   const [user, setUser] = useState({});
+
+  useEffect(() => {
+    let empLoginData = props.employee.empLoginData;
+    if (empLoginData !== undefined) {
+      if (empLoginData?.data?.status == "success") {
+        setUser(empLoginData.data.data);
+      }
+    }
+  }, [props.employee.empLoginData]);
 
   useEffect(() => {
     let loginData = props.candidate.loginData;
@@ -120,7 +130,8 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
       <Divider />
       <br />
       <List>
-        <ListItem key="dashboard" disablePadding>
+        {user.role !== "agent" ? (
+          <ListItem key="dashboard" disablePadding>
           <ListItemButton to="/dashboard">
             <ListItemIcon>
               <HomeIcon style={{ color: "white" }} />
@@ -128,6 +139,8 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             <ListItemText primary="Dashboard" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
+        ) : null}
+        
         {user.role === "clerk" && (
           <ListItem key="upload" disablePadding>
             <ListItemButton to="/upload">
@@ -146,14 +159,28 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             <ListItemText primary="All Students" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
-        <ListItem key="rejection" disablePadding>
+        {user.role !== "agent" ? (
+          <ListItem key="rejection" disablePadding>
           <ListItemButton to="/rejection">
             <ListItemIcon>
               <PreviewIcon style={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="Rejected Application" style={{ color: "white" }} />
+            <ListItemText primary="Rejected" style={{ color: "white" }} />
           </ListItemButton>
         </ListItem>
+        ) : null}
+        
+        {user.role !== "agent" ? (
+          <ListItem key="successful" disablePadding>
+            <ListItemButton to="/succadm">
+              <ListItemIcon>
+                <OfflinePinIcon style={{ color: "white" }} />
+              </ListItemIcon>
+              <ListItemText primary="Completed" style={{ color: "white" }} />
+            </ListItemButton>
+          </ListItem>
+        ) : null}
+
         {user.role === "admin" ? (
           <>
             <ListItem key="users" disablePadding>
@@ -180,7 +207,7 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             </ListItem> */}
           </>
         ) : null}
-        <ListItem key="account" disablePadding>
+        {/* <ListItem key="account" disablePadding>
           <ListItemButton to="*">
             <ListItemIcon>
               <WalletOutlined style={{ color: "white" }} />
@@ -203,7 +230,7 @@ const Sidebar = ({ handleDrawerToggle, ...props }) => {
             </ListItemIcon>
             <ListItemText primary="Setting" style={{ color: "white" }} />
           </ListItemButton>
-        </ListItem>
+        </ListItem> */}
         <ListItem key="LogOut" disablePadding>
           <ListItemButton to="/logout">
             <ListItemIcon>

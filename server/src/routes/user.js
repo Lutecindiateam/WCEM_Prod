@@ -51,7 +51,19 @@ const {
   editAdminVerify,
 } = require("../controller/partner/admin");
 const { requireSignin } = require("../common-middleware");
-const { uploadDocument, getDocument } = require("../controller/partner/document");
+const {
+  uploadDocument,
+  getDocument,
+} = require("../controller/partner/document");
+const {
+  getRejectedApp,
+  editEditorRejection,
+  editSecondEditorRejection,
+  editAdminRejection,
+  editAdminVerifyRejection,
+  editSuperAdminRejection,
+  editReSubmission,
+} = require("../controller/partner/reject");
 
 const router = express.Router();
 
@@ -126,15 +138,24 @@ router.get("/profile/:id", getPartnerProfile);
 // router.post("/upload", upload.single("files"), uploadDocument);
 router.patch("/employer/:id", upload.single("file"), uploadDocument);
 router.get("/employer/:id", getDocument);
-router.get("/editor/getadmission/:id",getEditorAdmission);
-router.patch("/admin/addincentive/:id",upload.none(), addIntensive);
+router.get("/editor/getadmission/:id", getEditorAdmission);
+router.patch("/admin/addincentive/:id", upload.none(), addIntensive);
 router.patch("/admin/editEditorStatus/:id", editEditorStatus);
 router.patch("/admin/forAdminEdit/:id", editForAdminStatus);
 router.patch("/admin/editVerifyAdmin/:id", editVerifyAdmin);
 router.patch("/admin/editSecondLast/:id", editAdminVerify);
 router.patch("/admin/editSuperAdmin/:id", editSuperAdmin);
+router.patch("/admin/editEditor1Rejection/:id", editEditorRejection);
+router.patch("/admin/editEditorRejection/:id", editSecondEditorRejection);
+router.patch("/admin/editAdminRejection/:id", editAdminRejection);
+router.patch("/admin/editAdminVerifyRejection/:id", editAdminVerifyRejection);
+router.patch("/admin/editSuperRejection/:id", editSuperAdminRejection);
+router.patch("/admin/editResubmission/:id", editReSubmission);
+router.patch("/edit/reSubmission/:id", editReSubmission)
+router.get("/clerk/rejApplication", getRejectedApp)
 router.get("/upload/getSource/:id", getaAgentSource);
-router.post("/agent/login" , authenticate_agent)
+router.post("/agent/login", authenticate_agent);
 router.get("/agent/profile/:id", agentProfile);
-router.get("/agent/getstudent/:id", getAgentStudent)
+router.get("/agent/getstudent/:id", getAgentStudent);
+router.get("/admin/reject", getRejectedApp);
 module.exports = router;

@@ -13,6 +13,8 @@ import {
   requestGetCandidate,
   requestGetApplyJob,
   requestCandidateForJob,
+  requestAdminCategoryJob,
+  requestJobs
 } from "../Redux/actions";
 import { connect } from "react-redux";
 import Pie from "./pie";
@@ -24,6 +26,7 @@ import { Navigate } from "react-router-dom";
 const Dashboard = ({ information, ...props }) => {
   const [user, setUser] = useState({});
   const [list, setList] = useState([]);
+  const [rejList, setRejList] = useState([]);
 
   // console.log(user);
   // useEffect(() => {
@@ -152,6 +155,65 @@ const Dashboard = ({ information, ...props }) => {
     }
   }, [props?.data?.monthWiseJobData]);
 
+  useEffect(() => {
+    let loginData = props.data.loginData;
+    if (loginData !== undefined) {
+      if (loginData?.data?.status == "success") {
+        if (
+          loginData?.data?.data.role === "admin" ||
+          loginData.data.data.role === "editor" ||
+          loginData.data.data.role === "superadmin"
+        ) {
+          setUser(loginData.data.data);
+          props.requestAdminCategoryJob({
+            token: loginData.data.data.token,
+          });
+        }
+      }
+    }
+  }, [
+    props.data.loginData,
+    props.data.editSizeData,
+    props.data.editPeriodData,
+  ]);
+
+  useEffect(() => {
+    let loginData = props.candidate.loginData;
+    if (loginData !== undefined) {
+      if (loginData?.data?.status == "success") {
+        if (loginData?.data?.data.role === "clerk") {
+          props.requestJobs({
+            token: loginData.data.data.token,
+          });
+        }
+      }
+    }
+  }, [props.candidate.loginData, props.candidate.candidateProfileData]);
+
+  useEffect(() => {
+    let jobsData = props.candidate.jobsData;
+    if (jobsData !== undefined) {
+      if (jobsData?.data?.status === "success") {
+        setRejList(jobsData.data.data.response);
+      }
+    }
+  }, [props.candidate.jobsData]);
+
+  //Admin api
+  useEffect(() => {
+    let categoryJobData = props.data.categoryJobData;
+    if (categoryJobData !== undefined) {
+      if (categoryJobData?.data?.status == "success") {
+        setRejList(categoryJobData.data.data.response);
+      }
+    }
+  }, [
+    props.data.categoryJobData,
+    props.data.loginData,
+    props.candidate.loginData,
+  ]);
+  console.log(list);
+  console.log(rejList);
   return (
     <Layout>
       <Fragment>
@@ -173,8 +235,8 @@ const Dashboard = ({ information, ...props }) => {
                   >
                     <div className="media d-flex">
                       <div className="media-body text-left">
-                        <h3 className="">{list?.length ? list?.length : 0}</h3>
-                        <span className="">Total Admissions</span>
+                        <h3 className="">{list?.length ? list?.length + rejList.length : 0}</h3>
+                        <span className="">Total Admission Entries</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -203,11 +265,11 @@ const Dashboard = ({ information, ...props }) => {
                         <h3 className="">
                           {list
                             ? list.filter(
-                                (user) => user.leadStatus === "accepted"
+                                (user) => user.status === "true"
                               ).length
                             : 0}
                         </h3>
-                        <span className="">Incomplete Admissions</span>
+                        <span className="">Complete Admissions</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -235,11 +297,11 @@ const Dashboard = ({ information, ...props }) => {
                     <div className="media d-flex">
                       <div className="media-body text-left">
                         <h3 className="">
-                          {information?.sale_profit
-                            ? information?.sale_profit
+                          {rejList
+                            ? rejList.length
                             : 0}
                         </h3>
-                        <span className="">Approved Admissions</span>
+                        <span className="">Rejected Application</span>
                       </div>
                       <div className="align-self-center">
                         <i
@@ -324,6 +386,8 @@ const mapDispatchToProps = (dispatch) =>
       requestGetCandidate,
       requestGetApplyJob,
       requestCandidateForJob,
+      requestAdminCategoryJob,
+      requestJobs
     },
     dispatch
   );

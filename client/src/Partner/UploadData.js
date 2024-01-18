@@ -290,7 +290,7 @@ const UploadData = (props) => {
 
         props.candidate.applyJobData = undefined;
       } else {
-        Swal.fire("Alert!", "Something Went Wrong.", "error");
+        Swal.fire("Alert!", applyJobData.data.message, "error");
         setLoader(false);
         props.candidate.applyJobData = undefined;
       }
@@ -502,18 +502,27 @@ const UploadData = (props) => {
                   required: true,
                   message: "Please input Mobile Number!",
                 },
+                {
+                  len: 10,
+                  message: "Mobile Number must be exactly 10 digits!",
+                },
               ]}
             >
               <Input type="number" placeholder="Enter Parent Mobile Number" />
             </Form.Item>
+            
             <Form.Item
               style={{ marginBottom: "15px" }}
               label="Parent Mobile Number"
               name="parent_mobile"
               rules={[
+                // {
+                //   required: true,
+                //   message: "Please input Mobile Number!",
+                // },
                 {
-                  required: true,
-                  message: "Please input Mobile Number!",
+                  len: 10,
+                  message: "Mobile Number must be exactly 10 digits!",
                 },
               ]}
             >

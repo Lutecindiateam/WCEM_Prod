@@ -13,8 +13,8 @@ import axios from "axios";
 
 sagaMiddleware.run(mainSaga);
 
-// axios.defaults.baseURL = "/api";
-axios.defaults.baseURL = `${process.env.REACT_APP_API_HOST}/api`;
+axios.defaults.baseURL = "/api";
+// axios.defaults.baseURL = `${process.env.REACT_APP_API_HOST}/api`;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
